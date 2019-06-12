@@ -9,7 +9,7 @@ export default {
   input: 'src/main.js',
   output: {
     sourcemap: true,
-    format: 'iife',
+    format: 'cjs',
     name: 'app',
     file: 'dist/bundle.js',
   },

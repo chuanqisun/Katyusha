@@ -1,10 +1,12 @@
 <script>
-  //debug
-  import { selectedId } from "./stores.js";
+  import MenuBar from "./components/MenuBar.svelte";
+  import SvgIcons from "./components/SvgIcons.svelte";
 </script>
 
 <style>
 
 </style>
 
-<samp>{$selectedId}</samp>
+<SvgIcons />
+<MenuBar />
+<main>Hello svelte</main>
