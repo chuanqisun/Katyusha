@@ -1,0 +1,20 @@
+{
+  "name": "katyusha",
+  "version": "0.0.1",
+  "description": "Powerful test and demo launcher",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/chuanqisun/katyusha",
+  "keywords": [],
+  "author": "Chuanqi Sun",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^5.0.3"
+  },
+  "dependencies": {
+    "chromedriver": "74.0.0",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  }
+}
