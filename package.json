@@ -4,14 +4,24 @@
   "description": "Powerful test and demo launcher",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "run-p start:electron autobuild",
+    "start:electron": "electron .",
+    "build": "rollup -c",
+    "autobuild": "rollup -c -w"
   },
   "repository": "https://github.com/chuanqisun/katyusha",
   "keywords": [],
   "author": "Chuanqi Sun",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^5.0.3"
+    "electron": "^5.0.3",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^1.15.1",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1",
+    "rollup-plugin-svelte": "^5.1.0",
+    "rollup-plugin-terser": "^5.0.0",
+    "svelte": "^3.5.1"
   },
   "dependencies": {
     "chromedriver": "74.0.0",

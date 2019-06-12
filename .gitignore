@@ -2,3 +2,4 @@ node_modules
 .temp
 .dist
 debug.log
+dist/bundle.*
