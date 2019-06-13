@@ -1,6 +1,7 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import json from 'rollup-plugin-json';
 import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -13,6 +14,7 @@ export default {
     name: 'app',
     file: 'dist/bundle.js',
   },
+  external: ['electron', 'fs', 'path'],
   plugins: [
     svelte({
       // enable run-time checks when not in production
@@ -29,8 +31,9 @@ export default {
     // some cases you'll need additional configuration —
     // consult the documentation for details:
     // https://github.com/rollup/rollup-plugin-commonjs
-    resolve({ browser: true }),
+    resolve(),
     commonjs(),
+    json(),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
