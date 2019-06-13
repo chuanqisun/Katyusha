@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   import MenuBar from "./components/MenuBar.svelte";
   import { settingsStore, environmentsStore } from "./stores.js";
 

@@ -10,25 +10,7 @@ async function initializeStores() {
   environmentsStore.set(environments);
 }
 
-function createSettingsStore() {
-  const { subscribe, set, update } = writable(null);
-
-  return {
-    subscribe,
-    set,
-  };
-}
-
-function createEnvironmentsStore() {
-  const { subscribe, set, update } = writable(null);
-
-  return {
-    subscribe,
-    set,
-  };
-}
-
-export const settingsStore = createSettingsStore();
-export const environmentsStore = createEnvironmentsStore();
+export const settingsStore = writable(null);
+export const environmentsStore = writable(null);
 
 initializeStores();

@@ -1,12 +1,7 @@
-const app = require('electron').remote.app;
 const fs = require('fs');
-const path = require('path');
-const { settingsFilename, environmentsFilename } = require('../../system-config');
-const userDataPath = app.getPath('userData');
-const settingsFilePath = path.join(userDataPath, settingsFilename);
-const environmentsFilePath = path.join(userDataPath, environmentsFilename);
+import { settingsFilePath, environmentsFilePath } from './app-paths';
 
-async function getSettings() {
+export async function getSettings() {
   let settings = await tryGetSettingsFile();
   if (!settings) {
     settings = await createSettingsFile();
@@ -46,7 +41,3 @@ function getDefaultSettings() {
     environmentsFilePath: environmentsFilePath,
   };
 }
-
-module.exports = {
-  getSettings,
-};

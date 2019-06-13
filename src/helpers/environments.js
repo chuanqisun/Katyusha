@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-async function getEnvironments(environmentsFilePath) {
+export async function getEnvironments(environmentsFilePath) {
   let environments = await tryGetEnvironmentsFile(environmentsFilePath);
   if (!environments) {
     environments = await createEnvironmentsFile(environmentsFilePath);
@@ -38,7 +38,3 @@ async function createEnvironmentsFile(environmentsFilePath) {
 function getDefaultEnvironments() {
   return [];
 }
-
-module.exports = {
-  getEnvironments,
-};
