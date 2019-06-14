@@ -1,5 +1,6 @@
 <script>
   import MenuBar from "./components/MenuBar.svelte";
+  import Environments from "./components/Environments.svelte";
   import { settingsStore, environmentsStore } from "./stores.js";
 
   $: {
@@ -13,4 +14,4 @@
 </style>
 
 <MenuBar />
-<main>Hello svelte</main>
+<Environments />

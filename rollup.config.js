@@ -12,7 +12,7 @@ export default {
     name: 'app',
     file: 'dist/bundle.js',
   },
-  external: ['electron', 'fs', 'path'],
+  external: ['electron', 'fs', 'path', 'chromedriver', 'selenium-webdriver'],
   plugins: [
     svelte({
       // enable run-time checks when not in production
