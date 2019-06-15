@@ -1,10 +1,10 @@
 const fs = require('fs');
 
-/* 
+/*
 {
   name: string;
-  url": string;
-  auth: 'aad-1fa' | 'manual';
+  url: string;
+  auth: 'aad-basic' | 'manual';
   username?: string;
   password?: string;
 }
@@ -23,7 +23,7 @@ export async function getEnvironments(environmentsFilePath) {
 export async function writeEnvironments(environmentsFilePath, fileContent) {
   return new Promise(resolve => {
     fs.writeFile(environmentsFilePath, JSON.stringify(fileContent), () => {
-      console.log(`[environments] default environments created in ${environmentsFilePath}`);
+      console.log(`[environments] environments written in ${environmentsFilePath}`);
       resolve(fileContent);
     });
   });

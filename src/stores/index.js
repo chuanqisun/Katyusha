@@ -11,3 +11,4 @@ initializeStores();
 export * from './environments';
 export * from './settings';
 export * from './fullScreenModal';
+export * from './environmentDetails';
