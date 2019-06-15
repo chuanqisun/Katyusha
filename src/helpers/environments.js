@@ -1,12 +1,32 @@
 const fs = require('fs');
 
+/* 
+{
+  name: string;
+  url": string;
+  auth: 'aad-1fa' | 'manual';
+  username?: string;
+  password?: string;
+}
+*/
+
 export async function getEnvironments(environmentsFilePath) {
   let environments = await tryGetEnvironmentsFile(environmentsFilePath);
   if (!environments) {
-    environments = await createEnvironmentsFile(environmentsFilePath);
+    const fileContent = getDefaultEnvironments();
+    environments = await writeEnvironments(environmentsFilePath, fileContent);
   }
 
   return environments;
+}
+
+export async function writeEnvironments(environmentsFilePath, fileContent) {
+  return new Promise(resolve => {
+    fs.writeFile(environmentsFilePath, JSON.stringify(fileContent), () => {
+      console.log(`[environments] default environments created in ${environmentsFilePath}`);
+      resolve(fileContent);
+    });
+  });
 }
 
 async function tryGetEnvironmentsFile(environmentsFilePath) {
@@ -21,16 +41,6 @@ async function tryGetEnvironmentsFile(environmentsFilePath) {
         console.log('[environments] file does not exist');
         resolve(null);
       }
-    });
-  });
-}
-
-async function createEnvironmentsFile(environmentsFilePath) {
-  const defaultEnvironments = getDefaultEnvironments();
-  return new Promise(resolve => {
-    fs.writeFile(environmentsFilePath, JSON.stringify(defaultEnvironments), () => {
-      console.log(`[environments] default environments created in ${environmentsFilePath}`);
-      resolve(defaultEnvironments);
     });
   });
 }
