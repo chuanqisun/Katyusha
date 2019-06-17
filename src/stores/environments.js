@@ -1,5 +1,5 @@
 import { writable, get } from 'svelte/store';
-import { getEnvironments, writeEnvironments } from '../helpers/environments';
+import { getEnvironments, writeEnvironments, confirmRemoveEnvironment } from '../helpers/environments';
 import { settingsStore } from './settings';
 
 export async function initializeEnvironmentsStore() {
@@ -31,6 +31,8 @@ export async function updateEnvironment(environmentDetails) {
 export async function removeEnvironment(environmentName) {
   const settings = get(settingsStore);
   const environments = get(environmentsStore);
+  if (!confirmRemoveEnvironment(environmentName)) return false;
+
   const remainingEnvironments = environments.filter(environment => environment.name !== environmentName);
   await writeEnvironments(settings.environmentsFilePath, remainingEnvironments);
   environmentsStore.set(remainingEnvironments);

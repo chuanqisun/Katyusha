@@ -24,8 +24,10 @@
   }
 
   async function onRemove() {
-    await removeEnvironment(environmentDetails.name);
-    closeFullScreenModal();
+    const success = await removeEnvironment(environmentDetails.name);
+    if (success) {
+      closeFullScreenModal();
+    }
   }
 </script>
 

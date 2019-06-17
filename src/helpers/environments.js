@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { dialog } = require('electron').remote;
 
 /*
 {
@@ -27,6 +28,22 @@ export async function writeEnvironments(environmentsFilePath, fileContent) {
       resolve(fileContent);
     });
   });
+}
+
+export function confirmRemoveEnvironment(environmentName) {
+  const decision = dialog.showMessageBox({
+    type: 'question',
+    message: `Are you sure you want to remove ${environmentName}`,
+    detail: `You can't recover an environment once it is removed.`,
+    defaultId: 0,
+    cancelId: 1,
+    noLink: true,
+    buttons: ['Yes', 'Keep it'],
+  });
+
+  console.log(decision === 0);
+
+  return decision === 0;
 }
 
 async function tryGetEnvironmentsFile(environmentsFilePath) {
