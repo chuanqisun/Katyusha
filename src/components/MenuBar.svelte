@@ -43,6 +43,11 @@
   .app-menu__window-action--destructive:hover {
     background-color: var(--window-action-destructive-background);
   }
+
+  .icon {
+    width: var(--icon-size-16);
+    height: var(--icon-size-16);
+  }
 </style>
 
 <header class="app-menu">

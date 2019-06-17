@@ -1,3 +1,8 @@
+:root {
+  --icon-size-16: 1rem;
+  --icon-size-24: 1.5rem;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
@@ -7,7 +12,65 @@ button {
   -webkit-app-region: no-drag;
 }
 
-svg.icon {
-  width: 1rem;
-  height: 1rem;
+.btn__icon {
+  width: var(--icon-size-24);
+  height: var(--icon-size-24);
+}
+
+.btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 1.25rem;
+  padding: 0 1.25rem;
+}
+
+.btn--square {
+  border-radius: 0;
+}
+
+.btn--primary {
+  background-color: #222;
+  color: white;
+}
+.btn--primary:hover {
+  background-color: black;
+}
+
+.btn--dangerous,
+.btn--secondary {
+  border-color: #222;
+}
+
+.btn--ghost:hover,
+.btn--secondary:hover {
+  color: white;
+  border-color: black;
+  background-color: black;
+}
+
+.btn--dangerous:hover {
+  border-color: red;
+  background-color: red;
+  color: white;
+}
+
+.btn--icon-text {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.btn--icon-only {
+  padding: 0;
+}
+
+.btn__icon + .btn__text {
+  margin-left: 0.25rem;
+}
+
+.btn--launch {
+  justify-content: flex-start;
 }

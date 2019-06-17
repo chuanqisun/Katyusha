@@ -15,11 +15,15 @@
 </script>
 
 <style>
-
+  .app-body {
+    padding: 0.5rem;
+  }
 </style>
 
 <MenuBar />
-{#if !$fullScreenModalStore.component}
-  <Environments />
-{/if}
-<FullScreenModal />
+<div class="app-body">
+  {#if !$fullScreenModalStore.component}
+    <Environments />
+  {/if}
+  <FullScreenModal />
+</div>
