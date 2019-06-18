@@ -43,7 +43,7 @@
   .btn--launch .btn__icon--active {
     transform: translateX(-50%);
     position: absolute;
-    left: 2rem;
+    left: 1.75rem;
     opacity: 0;
   }
 
@@ -54,7 +54,6 @@
 
   .btn--edit {
     opacity: 0;
-    padding: 0 0.5rem;
   }
 
   .environment-item:hover .btn--edit {
@@ -70,7 +69,7 @@
   .environment-item {
     display: grid;
     grid-template-columns: minmax(10em, 1fr) auto;
-    justify-items: stretch;
+    gap: 0.5rem;
   }
 </style>
 
@@ -79,7 +78,7 @@
     {#each $environmentsStore as environment}
       <li class="environment-item">
         <button
-          class="btn btn--icon-text btn--launch btn--square btn--ghost"
+          class="btn btn--icon-text btn--launch btn--ghost"
           on:click={() => launch(environment)}>
           <svg class="btn__icon btn__icon--active">
             <use xlink:href="#svg-play" />

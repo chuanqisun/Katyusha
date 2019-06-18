@@ -23,13 +23,17 @@ button {
   display: flex;
   align-items: center;
   height: 2.5rem;
-  border: 2px solid transparent;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
   border-radius: 1.25rem;
-  padding: 0 1.25rem;
+  padding: 0 1rem;
 }
 
 .btn--square {
-  border-radius: 0;
+  width: 2.5rem;
+  padding: 0;
+  justify-content: center;
 }
 
 .btn--primary {
@@ -63,12 +67,12 @@ button {
   font-weight: bold;
 }
 
-.btn--icon-only {
-  padding: 0;
+.btn__text {
+  text-align: left;
 }
 
 .btn__icon + .btn__text {
-  margin-left: 0.25rem;
+  margin-left: 0.5rem;
 }
 
 .btn--launch {
