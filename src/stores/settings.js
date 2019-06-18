@@ -1,7 +1,14 @@
-import { writable } from 'svelte/store';
-import { getSettings, getNewEnvironmentsFileDir, getEnvironmentsFilePathFromDir, updateSettingsFile } from '../helpers/settings';
+import { writable, get } from 'svelte/store';
+import {
+  getSettings,
+  getNewEnvironmentsFileDir,
+  getEnvironmentsFilePathFromDir,
+  updateSettingsFile,
+  confirmRemoveOldEnvironmentsFile,
+} from '../helpers/settings';
 import { environmentsFileExistsInDir } from '../helpers/environments';
-import { removeFile, moveFile } from '../helpers/file-system';
+import { removeFile, copyFile } from '../helpers/file-system';
+import { initializeEnvironmentsStore, environmentsStore } from './environments';
 
 export async function initializeSettingsStore() {
   const settings = await getSettings();
@@ -11,7 +18,6 @@ export async function initializeSettingsStore() {
 }
 
 export async function changeEnvironmentsFilePath() {
-  debugger;
   const newDirs = getNewEnvironmentsFileDir();
   if (newDirs && newDirs[0]) {
     const environmentsFileExists = await environmentsFileExistsInDir(newDirs[0]);
@@ -21,17 +27,23 @@ export async function changeEnvironmentsFilePath() {
 
     if (environmentsFileExists) {
       //1. environments.json exists in new location
-      console.log(`[settings] remove ${oldPath}`);
-      removeFile(oldPath);
+      // noop
     } else {
-      //2. environments.json doesn't exist in new location => move old file to new location
-      console.log(`[settings] move ${oldPath} to ${newPath}`);
-      moveFile(oldPath, newPath);
+      //2. environments.json doesn't exist in new location => copy old file to new location
+      console.log(`[settings] copied ${oldPath} to ${newPath}`);
+      copyFile(oldPath, newPath);
     }
 
     settings.environmentsFilePath = newPath;
-    updateSettingsFile(settings);
+    await updateSettingsFile(settings);
+
     settingsStore.set(settings);
+    await initializeEnvironmentsStore();
+
+    if (confirmRemoveOldEnvironmentsFile(environmentsFileExists, get(environmentsStore).length)) {
+      console.log(`[settings] remove ${oldPath}`);
+      await removeFile(oldPath);
+    }
   } else return false;
 }
 

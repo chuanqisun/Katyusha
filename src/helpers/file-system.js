@@ -22,3 +22,14 @@ export async function moveFile(oldPath, newPath) {
     resolve(true);
   });
 }
+
+export async function copyFile(oldPath, newPath) {
+  return new Promise(resolve => {
+    fs.copyFile(oldPath, newPath, err => {
+      if (err) throw err;
+      resolve(false);
+    });
+
+    resolve(true);
+  });
+}
