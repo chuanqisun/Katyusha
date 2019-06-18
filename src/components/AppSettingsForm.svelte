@@ -1,11 +1,21 @@
 <script>
-  import { closeFullScreenModal } from "../stores";
+  import {
+    closeFullScreenModal,
+    settingsStore,
+    changeEnvironmentsFilePath
+  } from "../stores";
   async function onSubmit(e) {
     if (e.target.reportValidity()) {
       e.preventDefault();
       closeFullScreenModal();
     }
   }
+
+  async function onChangeEnvironmentsFilePath() {
+    changeEnvironmentsFilePath();
+  }
+
+  let environmentsFilePath = $settingsStore.environmentsFilePath;
 </script>
 
 <style>
@@ -18,9 +28,13 @@
       Environments profile
     </label>
     <input
-      required
+      type="text"
+      readonly
       id="environments-profile-path"
-      type="environments-profile-path" />
+      bind:value={environmentsFilePath} />
+    <button on:click={onChangeEnvironmentsFilePath}>
+      Change profile location
+    </button>
   </div>
 
   <button class="btn btn--icon-text btn--primary" type="submit">

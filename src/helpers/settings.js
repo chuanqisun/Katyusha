@@ -1,5 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 import { settingsFilePath, environmentsFilePath } from './app-paths';
+import { environmentsFilename } from '../../app.config';
+
+const { dialog } = require('electron').remote;
 
 export async function getSettings() {
   let settings = await tryGetSettingsFile();
@@ -8,6 +12,27 @@ export async function getSettings() {
   }
 
   return settings;
+}
+
+export function getNewEnvironmentsFileDir() {
+  const paths = dialog.showOpenDialog({
+    properties: ['openDirectory', 'createDirectory'],
+  });
+
+  return paths;
+}
+
+export function getEnvironmentsFilePathFromDir(dir) {
+  return path.join(dir, environmentsFilename);
+}
+
+export async function updateSettingsFile(newFileContent) {
+  return new Promise(resolve => {
+    fs.writeFile(settingsFilePath, JSON.stringify(newFileContent), () => {
+      console.log(`[settings] settings updated in ${settingsFilePath}`);
+      resolve(settingsFilePath);
+    });
+  });
 }
 
 async function tryGetSettingsFile() {

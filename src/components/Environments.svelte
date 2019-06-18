@@ -57,11 +57,6 @@
     padding: 0 0.5rem;
   }
 
-  .btn--add-environment {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
   .environment-item:hover .btn--edit {
     opacity: 1;
   }
@@ -79,14 +74,6 @@
   }
 </style>
 
-<!-- <button
-  class="btn btn--icon-text btn--add-environment btn--secondary"
-  on:click={onOpenAddEnvironmentForm}>
-  <svg class="btn__icon">
-    <use xlink:href="#svg-plus" />
-  </svg>
-  <span class="btn__text">Add environment</span>
-</button> -->
 <ul class="environment-list">
   {#if $environmentsStore}
     {#each $environmentsStore as environment}

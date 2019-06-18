@@ -1,5 +1,7 @@
 const fs = require('fs');
+const path = require('path');
 const { dialog } = require('electron').remote;
+import { environmentsFilename } from '../../app.config';
 
 /*
 {
@@ -41,9 +43,12 @@ export function confirmRemoveEnvironment(environmentName) {
     buttons: ['Yes', 'Keep it'],
   });
 
-  console.log(decision === 0);
-
   return decision === 0;
+}
+
+export async function environmentsFileExistsInDir(dir) {
+  const environments = await tryGetEnvironmentsFile(path.join(dir, environmentsFilename));
+  return !!environments;
 }
 
 async function tryGetEnvironmentsFile(environmentsFilePath) {
