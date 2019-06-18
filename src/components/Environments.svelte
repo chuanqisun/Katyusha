@@ -79,14 +79,14 @@
   }
 </style>
 
-<button
+<!-- <button
   class="btn btn--icon-text btn--add-environment btn--secondary"
   on:click={onOpenAddEnvironmentForm}>
   <svg class="btn__icon">
     <use xlink:href="#svg-plus" />
   </svg>
   <span class="btn__text">Add environment</span>
-</button>
+</button> -->
 <ul class="environment-list">
   {#if $environmentsStore}
     {#each $environmentsStore as environment}

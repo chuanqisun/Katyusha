@@ -1,5 +1,4 @@
 <script>
-  import { getContext } from "svelte";
   import {
     addEnvironment,
     updateEnvironment,
