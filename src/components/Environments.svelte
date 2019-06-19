@@ -2,32 +2,22 @@
   import {
     environmentsStore,
     fullScreenModalStore,
-    environmentDetailsStore
+    environmentDetailsStore,
+    openFullScreenModal,
+    hydrateEnvironmentDetailsFormToCreate,
+    hydrateEnvironmentDetailsFormToEdit
   } from "../stores";
   import EnvironmentDetailsForm from "./EnvironmentDetailsForm.svelte";
   import { launch } from "../helpers/launch.js";
 
   function onOpenAddEnvironmentForm() {
-    environmentDetailsStore.set({
-      mode: "create",
-      name: "New environment",
-      url: "",
-      username: "",
-      password: "",
-      auth: "aad-basic"
-    });
-
-    fullScreenModalStore.set({
-      component: EnvironmentDetailsForm
-    });
+    hydrateEnvironmentDetailsFormToCreate();
+    openFullScreenModal(EnvironmentDetailsForm);
   }
 
   function onOpenEditEnvironmentForm(environment) {
-    environmentDetailsStore.set({ ...environment, mode: "edit" });
-
-    fullScreenModalStore.set({
-      component: EnvironmentDetailsForm
-    });
+    hydrateEnvironmentDetailsFormToEdit(environment);
+    openFullScreenModal(EnvironmentDetailsForm);
   }
 </script>
 
