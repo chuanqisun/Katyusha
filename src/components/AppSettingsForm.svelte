@@ -1,9 +1,6 @@
 <script>
-  import {
-    closeFullScreenModal,
-    settingsStore,
-    changeEnvironmentsFilePath
-  } from "../stores";
+  import { closeFullScreenModal } from "../stores";
+
   async function onSubmit(e) {
     if (e.target.reportValidity()) {
       e.preventDefault();
@@ -11,11 +8,8 @@
     }
   }
 
-  async function onChangeEnvironmentsFilePath() {
-    changeEnvironmentsFilePath();
-  }
-
-  let environmentsFilePath = $settingsStore.environmentsFilePath;
+  async function onImport() {}
+  async function onExport() {}
 </script>
 
 <style>
@@ -24,16 +18,7 @@
 
 <form class="form" on:submit={onSubmit}>
   <div class="form__field">
-    <label class="label label--field" for="environments-profile-path">
-      Environments profile
-    </label>
-    <input
-      type="text"
-      readonly
-      id="environments-profile-path"
-      bind:value={environmentsFilePath} />
-    <button on:click={onChangeEnvironmentsFilePath}>
-      Change profile location
-    </button>
+    <button on:click={onImport}>Import environments</button>
+    <button on:click={onExport}>Export environments</button>
   </div>
 </form>

@@ -54,7 +54,7 @@ export function confirmRemoveOldEnvironmentsFile(adoptedExistingFile, newEnviron
 
 export async function updateSettingsFile(newFileContent) {
   return new Promise(resolve => {
-    fs.writeFile(settingsFilePath, JSON.stringify(newFileContent), () => {
+    fs.writeFile(settingsFilePath, JSON.stringify(newFileContent, undefined, 2), () => {
       console.log(`[settings] settings updated in ${settingsFilePath}`);
       resolve(settingsFilePath);
     });
@@ -80,7 +80,7 @@ async function tryGetSettingsFile() {
 async function createSettingsFile() {
   const defaultSettings = getDefaultSettings();
   return new Promise(resolve => {
-    fs.writeFile(settingsFilePath, JSON.stringify(defaultSettings), () => {
+    fs.writeFile(settingsFilePath, JSON.stringify(defaultSettings, undefined, 2), () => {
       console.log(`[settings] default settings created in ${settingsFilePath}`);
       resolve(defaultSettings);
     });

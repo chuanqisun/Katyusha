@@ -6,7 +6,7 @@ import {
   updateSettingsFile,
   confirmRemoveOldEnvironmentsFile,
 } from '../helpers/settings';
-import { getEnvironments, writeEnvironments, confirmRemoveEnvironment, environmentsFileExistsInDir } from '../helpers/environments';
+import { getEnvironments, writeEnvironments, confirmRemoveEnvironment, environmentsFileExistsInDir, getNextEnvironmentId } from '../helpers/environments';
 import { removeFile, copyFile } from '../helpers/file-system';
 
 export const environmentsStore = writable(null);
@@ -28,37 +28,6 @@ async function initializeStores() {
 /* App settings */
 /* =============*/
 
-// TODO refactor into export/import
-export async function changeEnvironmentsFilePath() {
-  const newDirs = getNewEnvironmentsFileDir();
-  if (newDirs && newDirs[0]) {
-    const environmentsFileExists = await environmentsFileExistsInDir(newDirs[0]);
-    const settings = await getSettings();
-    const oldPath = settings.environmentsFilePath;
-    const newPath = getEnvironmentsFilePathFromDir(newDirs[0]);
-
-    if (environmentsFileExists) {
-      //1. environments.json exists in new location
-      // noop
-    } else {
-      //2. environments.json doesn't exist in new location => copy old file to new location
-      console.log(`[settings] copied ${oldPath} to ${newPath}`);
-      copyFile(oldPath, newPath);
-    }
-
-    settings.environmentsFilePath = newPath;
-    await updateSettingsFile(settings);
-
-    settingsStore.set(settings);
-    await initializeEnvironmentsStore();
-
-    if (confirmRemoveOldEnvironmentsFile(environmentsFileExists, get(environmentsStore).length)) {
-      console.log(`[settings] remove ${oldPath}`);
-      await removeFile(oldPath);
-    }
-  } else return false;
-}
-
 /* =================*/
 /* Environment CRUD */
 /* =================*/
@@ -71,11 +40,10 @@ export async function addEnvironment(environmentDetails) {
   return environments;
 }
 
-// TODO use id instead of name
 export async function updateEnvironment(environmentDetails) {
   const settings = get(settingsStore);
   const environments = get(environmentsStore);
-  const targetEnvironmentIndex = environments.findIndex(environment => environment.name === environmentDetails.name);
+  const targetEnvironmentIndex = environments.findIndex(environment => environment.id === environmentDetails.id);
   environments[targetEnvironmentIndex] = environmentDetails;
   await writeEnvironments(settings.environmentsFilePath, environments);
   environmentsStore.set(environments);
@@ -109,6 +77,7 @@ export function closeFullScreenModal() {
 /* =========================*/
 export function hydrateEnvironmentDetailsFormToCreate() {
   environmentDetailsStore.set({
+    id: getNextEnvironmentId(get(environmentsStore)),
     mode: 'create',
     name: 'New environment',
     url: '',
@@ -118,7 +87,8 @@ export function hydrateEnvironmentDetailsFormToCreate() {
   });
 }
 
-export function hydrateEnvironmentDetailsFormToEdit(environment) {
+export function hydrateEnvironmentDetailsFormToEditByEnvironmentId(id) {
+  const environment = get(environmentsStore).find(environment => environment.id === id);
   environmentDetailsStore.set({ ...environment, mode: 'edit' });
 }
 /* ==================*/

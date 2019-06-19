@@ -2,9 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const { dialog } = require('electron').remote;
 import { environmentsFilename } from '../../app.config';
+import { getNextIdFromArrayOfInts } from './unique-id';
 
 /*
 {
+  id: number;
   name: string;
   url: string;
   auth: 'aad-basic' | 'manual';
@@ -12,7 +14,6 @@ import { environmentsFilename } from '../../app.config';
   password?: string;
 }
 */
-
 export async function getEnvironments(environmentsFilePath) {
   let environments = await tryGetEnvironmentsFile(environmentsFilePath);
   if (!environments) {
@@ -25,7 +26,7 @@ export async function getEnvironments(environmentsFilePath) {
 
 export async function writeEnvironments(environmentsFilePath, fileContent) {
   return new Promise(resolve => {
-    fs.writeFile(environmentsFilePath, JSON.stringify(fileContent), () => {
+    fs.writeFile(environmentsFilePath, JSON.stringify(fileContent, undefined, 2), () => {
       console.log(`[environments] environments written in ${environmentsFilePath}`);
       resolve(fileContent);
     });
@@ -49,6 +50,11 @@ export function confirmRemoveEnvironment(environmentName) {
 export async function environmentsFileExistsInDir(dir) {
   const environments = await tryGetEnvironmentsFile(path.join(dir, environmentsFilename));
   return !!environments;
+}
+
+export function getNextEnvironmentId(environments) {
+  const existingIds = environments.map(environment => environment.id);
+  return getNextIdFromArrayOfInts(existingIds);
 }
 
 async function tryGetEnvironmentsFile(environmentsFilePath) {

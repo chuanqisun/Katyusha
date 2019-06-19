@@ -1,27 +1,19 @@
 <script>
-  import { fullScreenModalStore, environmentDetailsStore } from "../stores";
+  import {
+    openFullScreenModal,
+    hydrateEnvironmentDetailsFormToCreate
+  } from "../stores";
   import EnvironmentDetailsForm from "./EnvironmentDetailsForm.svelte";
   import AppSettingsForm from "./AppSettingsForm.svelte";
 
   function onOpenAddEnvironmentForm() {
-    environmentDetailsStore.set({
-      mode: "create",
-      name: "New environment",
-      url: "",
-      username: "",
-      password: "",
-      auth: "aad-basic"
-    });
+    hydrateEnvironmentDetailsFormToCreate();
 
-    fullScreenModalStore.set({
-      component: EnvironmentDetailsForm
-    });
+    openFullScreenModal(EnvironmentDetailsForm);
   }
 
   function onOpenAppSettingsForm() {
-    fullScreenModalStore.set({
-      component: AppSettingsForm
-    });
+    openFullScreenModal(AppSettingsForm);
   }
 </script>
 

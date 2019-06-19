@@ -5,7 +5,7 @@
     environmentDetailsStore,
     openFullScreenModal,
     hydrateEnvironmentDetailsFormToCreate,
-    hydrateEnvironmentDetailsFormToEdit
+    hydrateEnvironmentDetailsFormToEditByEnvironmentId
   } from "../stores";
   import EnvironmentDetailsForm from "./EnvironmentDetailsForm.svelte";
   import { launch } from "../helpers/launch.js";
@@ -15,8 +15,8 @@
     openFullScreenModal(EnvironmentDetailsForm);
   }
 
-  function onOpenEditEnvironmentForm(environment) {
-    hydrateEnvironmentDetailsFormToEdit(environment);
+  function onOpenEditEnvironmentFormByEnvironmentId(id) {
+    hydrateEnvironmentDetailsFormToEditByEnvironmentId(id);
     openFullScreenModal(EnvironmentDetailsForm);
   }
 </script>
@@ -80,7 +80,7 @@
         </button>
         <button
           class="btn btn--icon-only btn--edit btn--square btn--ghost"
-          on:click={() => onOpenEditEnvironmentForm(environment)}>
+          on:click={() => onOpenEditEnvironmentFormByEnvironmentId(environment.id)}>
           <svg class="btn__icon">
             <use xlink:href="#svg-edit" />
           </svg>
