@@ -1,5 +1,5 @@
 <script>
-  import { closeFullScreenModal } from "../stores";
+  import { closeFullScreenModal, exportAllEnvironments } from "../stores";
 
   async function onSubmit(e) {
     if (e.target.reportValidity()) {
@@ -9,7 +9,9 @@
   }
 
   async function onImport() {}
-  async function onExport() {}
+  async function onExport() {
+    exportAllEnvironments();
+  }
 </script>
 
 <style>

@@ -1,13 +1,7 @@
-import { writable, get } from 'svelte/store';
-import {
-  getSettings,
-  getNewEnvironmentsFileDir,
-  getEnvironmentsFilePathFromDir,
-  updateSettingsFile,
-  confirmRemoveOldEnvironmentsFile,
-} from '../helpers/settings';
-import { getEnvironments, writeEnvironments, confirmRemoveEnvironment, environmentsFileExistsInDir, getNextEnvironmentId } from '../helpers/environments';
-import { removeFile, copyFile } from '../helpers/file-system';
+import { get, writable } from 'svelte/store';
+import { confirmRemoveEnvironment, getExportEnvironmentsPath } from '../helpers/dialogs';
+import { ensureGetEnvironments, getNextEnvironmentId, writeEnvironments, exportEnvironments } from '../helpers/environments';
+import { ensureGetSettings } from '../helpers/settings';
 
 export const environmentsStore = writable(null);
 export const settingsStore = writable(null);
@@ -17,9 +11,9 @@ export const environmentDetailsStore = writable({ component: null });
 initializeStores();
 
 async function initializeStores() {
-  const settings = await getSettings();
+  const settings = await ensureGetSettings();
   settingsStore.set(settings);
-  const environments = await getEnvironments(settings.environmentsFilePath);
+  const environments = await ensureGetEnvironments(settings.environmentsFilePath);
   environmentsStore.set(environments);
   return environments;
 }
@@ -27,6 +21,22 @@ async function initializeStores() {
 /* =============*/
 /* App settings */
 /* =============*/
+export async function exportAllEnvironments() {
+  const environments = get(environmentsStore);
+  const portalEnvironments = environments.map(environment => {
+    const { id, ...portableEnvironment } = environment;
+    return portableEnvironment;
+  });
+
+  const path = getExportEnvironmentsPath();
+  if (path) {
+    await exportEnvironments(path, portalEnvironments);
+  }
+}
+
+export async function importEnvironments() {
+  //noop
+}
 
 /* =================*/
 /* Environment CRUD */

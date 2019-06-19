@@ -33,3 +33,18 @@ export async function copyFile(oldPath, newPath) {
     resolve(true);
   });
 }
+
+export async function writeJsonFile(path, object) {
+  return new Promise(resolve => {
+    fs.writeFile(path, stringify(object), err => {
+      if (err) throw err;
+      resolve(false);
+    });
+
+    resolve(true);
+  });
+}
+
+function stringify(object) {
+  return JSON.stringify(object, undefined, 2);
+}

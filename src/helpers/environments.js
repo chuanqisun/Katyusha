@@ -1,20 +1,8 @@
 const fs = require('fs');
-const path = require('path');
-const { dialog } = require('electron').remote;
-import { environmentsFilename } from '../../app.config';
 import { getNextIdFromArrayOfInts } from './unique-id';
+import { writeJsonFile } from './file-system';
 
-/*
-{
-  id: number;
-  name: string;
-  url: string;
-  auth: 'aad-basic' | 'manual';
-  username?: string;
-  password?: string;
-}
-*/
-export async function getEnvironments(environmentsFilePath) {
+export async function ensureGetEnvironments(environmentsFilePath) {
   let environments = await tryGetEnvironmentsFile(environmentsFilePath);
   if (!environments) {
     const fileContent = getDefaultEnvironments();
@@ -25,31 +13,14 @@ export async function getEnvironments(environmentsFilePath) {
 }
 
 export async function writeEnvironments(environmentsFilePath, fileContent) {
-  return new Promise(resolve => {
-    fs.writeFile(environmentsFilePath, JSON.stringify(fileContent, undefined, 2), () => {
-      console.log(`[environments] environments written in ${environmentsFilePath}`);
-      resolve(fileContent);
-    });
-  });
+  await writeJsonFile(environmentsFilePath, fileContent);
+  console.log(`[environments] environments written in ${environmentsFilePath}`);
+  return fileContent;
 }
 
-export function confirmRemoveEnvironment(environmentName) {
-  const decision = dialog.showMessageBox({
-    type: 'question',
-    message: `Are you sure you want to remove ${environmentName}?`,
-    detail: `You can't recover an environment once it is removed.`,
-    defaultId: 0,
-    cancelId: 1,
-    noLink: true,
-    buttons: ['Yes', 'Keep it'],
-  });
-
-  return decision === 0;
-}
-
-export async function environmentsFileExistsInDir(dir) {
-  const environments = await tryGetEnvironmentsFile(path.join(dir, environmentsFilename));
-  return !!environments;
+export async function exportEnvironments(exportPath, environments) {
+  await writeJsonFile(exportPath, environments);
+  console.log(`[environments] environments exported to ${exportPath}`);
 }
 
 export function getNextEnvironmentId(environments) {
