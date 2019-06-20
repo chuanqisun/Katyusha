@@ -18,4 +18,4 @@ A web app launcher for demo and test
 ## Roadmap
 
 - [ ] Auto update
-- [ ] Launch animation
+- [ ] Keyboard a11y
