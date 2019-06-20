@@ -60,12 +60,12 @@ export async function updateEnvironment(environmentDetails) {
   return environments;
 }
 
-export async function removeEnvironment(environmentName) {
+export async function removeEnvironment(environmentDetails) {
   const settings = get(settingsStore);
   const environments = get(environmentsStore);
-  if (!confirmRemoveEnvironment(environmentName)) return false;
+  if (!confirmRemoveEnvironment(environmentDetails.name)) return false;
 
-  const remainingEnvironments = environments.filter(environment => environment.name !== environmentName);
+  const remainingEnvironments = environments.filter(environment => environment.id !== environmentDetails.id);
   await writeEnvironments(settings.environmentsFilePath, remainingEnvironments);
   environmentsStore.set(remainingEnvironments);
   return remainingEnvironments;

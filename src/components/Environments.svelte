@@ -30,6 +30,7 @@
     transition: all 250ms;
   }
 
+  .btn--launch:focus .btn__icon--rest,
   .btn--launch:hover .btn__icon--rest {
     opacity: 0;
   }
@@ -41,6 +42,7 @@
     opacity: 0;
   }
 
+  .btn--launch:focus .btn__icon--active,
   .btn--launch:hover .btn__icon--active {
     transform: translateX(0);
     opacity: 1;
@@ -48,6 +50,10 @@
 
   .btn--edit {
     opacity: 0;
+  }
+
+  .btn--edit:focus {
+    opacity: 1;
   }
 
   .environment-item:hover .btn--edit {

@@ -44,7 +44,7 @@
         <use xlink:href="#svg-download" />
       </svg>
       <span class="btn__text">
-        Export all sites({$environmentsStore.length}) to file
+        Export all sites ({$environmentsStore.length}) to file
       </span>
     </button>
   </div>

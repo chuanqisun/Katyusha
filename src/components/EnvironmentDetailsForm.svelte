@@ -27,7 +27,7 @@
   }
 
   async function onRemove() {
-    const success = await removeEnvironment(environmentDetails.name);
+    const success = await removeEnvironment(environmentDetails);
     if (success) {
       closeFullScreenModal();
     }
@@ -40,7 +40,7 @@
 
 <style>
   .label {
-    font-size: 14px;
+    font-size: 0.875;
   }
 
   .label--field {
@@ -63,9 +63,9 @@
   input[type="password"] {
     height: 2.5rem;
     padding: 0 0.5rem;
-    font-size: 16px;
+    font-size: 1rem;
     border: none;
-    background-color: #ddd;
+    background-color: white;
   }
 
   input[type="text"]:focus,
@@ -73,6 +73,18 @@
   input[type="password"]:focus {
     color: white;
     background-color: #222;
+  }
+
+  input[type="radio"] {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .radio-option {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.25rem;
+    font-size: 1rem;
   }
 </style>
 
@@ -96,7 +108,7 @@
   </div>
   <div class="form__field">
     <span class="label label--field">Sign in</span>
-    <div>
+    <div class="radio-option">
       <input
         id="auth-aad-basic"
         name="auth"
@@ -107,7 +119,7 @@
         AAD username + password
       </label>
     </div>
-    <div>
+    <div class="radio-option">
       <input
         id="auth-manual"
         name="auth"
