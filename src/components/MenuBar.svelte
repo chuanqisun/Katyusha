@@ -39,6 +39,7 @@
     border: none;
     width: var(--window-action-width);
     height: 100%;
+    outline-offset: -2px;
   }
 
   .app-menu__window-action:hover {

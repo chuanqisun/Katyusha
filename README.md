@@ -17,6 +17,5 @@ A web app launcher for demo and test
 
 ## Roadmap
 
-- [ ] Header sticky while scroll
+- [ ] Auto update
 - [ ] Launch animation
-- [ ] Profile encryption

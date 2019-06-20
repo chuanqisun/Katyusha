@@ -3,6 +3,18 @@
   --icon-size-24: 1.5rem;
 }
 
+/*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+.focus-visible {
+  outline: 2px solid orange;
+}
+
 html {
   height: 100%;
 }
@@ -13,6 +25,8 @@ body {
   height: 100%;
   display: grid;
   grid-template-rows: auto 1fr;
+  /* background-color: rgb(255, 229, 214); */
+  background: linear-gradient(hsl(22, 100%, 90%), hsl(0, 100%, 90%));
 }
 
 button {
