@@ -27,6 +27,7 @@
     margin-left: 1rem;
     display: flex;
     align-items: center;
+    font-size: 0.875rem;
   }
 
   .app-menu__window-actions {
