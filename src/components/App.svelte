@@ -17,7 +17,8 @@
 
 <style>
   .app-body {
-    padding: 0.5rem;
+    padding: 1rem;
+    overflow-y: auto;
   }
 </style>
 

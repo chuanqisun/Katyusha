@@ -1,5 +1,9 @@
 <script>
-  import { closeFullScreenModal, exportAllEnvironments } from "../stores";
+  import {
+    closeFullScreenModal,
+    exportAllEnvironments,
+    environmentsStore
+  } from "../stores";
 
   async function onSubmit(e) {
     if (e.target.reportValidity()) {
@@ -39,7 +43,9 @@
       <svg class="btn__icon">
         <use xlink:href="#svg-download" />
       </svg>
-      <span class="btn__text">Export sites to file</span>
+      <span class="btn__text">
+        Export all sites({$environmentsStore.length}) to file
+      </span>
     </button>
   </div>
 </form>

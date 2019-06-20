@@ -22,6 +22,10 @@
 </script>
 
 <style>
+  .btn--launch {
+    position: relative;
+  }
+
   .btn--launch .btn__icon {
     transition: all 250ms;
   }
@@ -33,7 +37,7 @@
   .btn--launch .btn__icon--active {
     transform: translateX(-50%);
     position: absolute;
-    left: 1.75rem;
+    left: 1rem;
     opacity: 0;
   }
 

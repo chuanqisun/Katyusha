@@ -23,6 +23,12 @@
     color: var(--menu-bar-text-color);
   }
 
+  .app-menu__title {
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+  }
+
   .app-menu__window-actions {
     display: flex; /* prevent button-to-button gaps*/
   }

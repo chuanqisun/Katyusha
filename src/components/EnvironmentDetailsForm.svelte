@@ -137,6 +137,8 @@
     </div>
   {/if}
 
+  <div class="spacer" />
+
   <button class="btn btn--icon-text btn--primary" type="submit">
     <svg class="btn__icon">
       <use xlink:href="#svg-save" />
