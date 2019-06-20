@@ -22,7 +22,6 @@
 </style>
 
 <form class="form" on:submit={onSubmit}>
-  <h3>Environments</h3>
   <div class="settings-items">
     <button
       on:click={onImport}
@@ -31,7 +30,7 @@
       <svg class="btn__icon">
         <use xlink:href="#svg-plus" />
       </svg>
-      <span class="btn__text">Import from file</span>
+      <span class="btn__text">Import sites from file</span>
     </button>
     <button
       on:click={onExport}
@@ -40,7 +39,7 @@
       <svg class="btn__icon">
         <use xlink:href="#svg-download" />
       </svg>
-      <span class="btn__text">Export to file</span>
+      <span class="btn__text">Export sites to file</span>
     </button>
   </div>
 </form>

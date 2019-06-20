@@ -32,7 +32,7 @@
     <svg class="btn__icon">
       <use xlink:href="#svg-plus" />
     </svg>
-    <span class="btn__text">Add environment</span>
+    <span class="btn__text">Add a site</span>
   </button>
   <button
     on:click={onOpenAppSettingsForm}

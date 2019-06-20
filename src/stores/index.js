@@ -89,7 +89,7 @@ export function hydrateEnvironmentDetailsFormToCreate() {
   environmentDetailsStore.set({
     id: getNextEnvironmentId(get(environmentsStore)),
     mode: 'create',
-    name: 'New environment',
+    name: '',
     url: '',
     username: '',
     password: '',

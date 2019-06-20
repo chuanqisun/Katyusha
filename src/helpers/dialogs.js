@@ -16,7 +16,7 @@ export function confirmRemoveEnvironment(environmentName) {
 
 export function getExportEnvironmentsPath() {
   return dialog.showSaveDialog({
-    title: `Export to file`,
+    title: `Export sites to file`,
     defaultPath: 'environments.json',
     filters: [
       {

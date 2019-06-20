@@ -13,6 +13,10 @@
     if (e.target.reportValidity()) {
       e.preventDefault();
       const { mode, ...environmentForSave } = environmentDetails;
+      if (!environmentForSave.name.length) {
+        environmentForSave.name = "Unnamed site";
+      }
+
       if (mode === "create") {
         await addEnvironment(environmentForSave);
       } else {
@@ -27,6 +31,10 @@
     if (success) {
       closeFullScreenModal();
     }
+  }
+
+  function selectInputContent(e) {
+    e.target.select();
   }
 </script>
 
@@ -72,17 +80,22 @@
   <div class="form__field">
     <label class="label label--field" for="name">Name</label>
     <input
-      required
       id="name"
       type="text"
+      on:focus={selectInputContent}
       bind:value={environmentDetails.name} />
   </div>
   <div class="form__field">
     <label class="label label--field" for="url">URL</label>
-    <input required id="url" type="url" bind:value={environmentDetails.url} />
+    <input
+      required
+      id="url"
+      type="url"
+      on:focus={selectInputContent}
+      bind:value={environmentDetails.url} />
   </div>
   <div class="form__field">
-    <span class="label label--field">Automate authentication</span>
+    <span class="label label--field">Sign in</span>
     <div>
       <input
         id="auth-aad-basic"
@@ -111,6 +124,7 @@
       <input
         id="username"
         type="text"
+        on:focus={selectInputContent}
         bind:value={environmentDetails.username} />
     </div>
     <div class="form__field">
@@ -118,6 +132,7 @@
       <input
         id="password"
         type="password"
+        on:focus={selectInputContent}
         bind:value={environmentDetails.password} />
     </div>
   {/if}
