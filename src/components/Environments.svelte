@@ -10,6 +10,8 @@
   import EnvironmentDetailsForm from "./EnvironmentDetailsForm.svelte";
   import { launch } from "../helpers/launch.js";
 
+  let animatingEnvironmentId, animationEndEventListener;
+
   function onOpenAddEnvironmentForm() {
     hydrateEnvironmentDetailsFormToCreate();
     openFullScreenModal(EnvironmentDetailsForm);
@@ -18,6 +20,15 @@
   function onOpenEditEnvironmentFormByEnvironmentId(id) {
     hydrateEnvironmentDetailsFormToEditByEnvironmentId(id);
     openFullScreenModal(EnvironmentDetailsForm);
+  }
+
+  function onLaunch(event, environment) {
+    animatingEnvironmentId = environment.id;
+    launch(environment);
+  }
+
+  function onAnimationEnd() {
+    animatingEnvironmentId = null;
   }
 </script>
 
@@ -30,7 +41,16 @@
     transition: all 250ms;
   }
 
-  .btn--launch:focus .btn__icon--rest,
+  .btn__icon--active {
+    --fill-color: transparent;
+  }
+
+  .btn__icon--active.animating {
+    --fill-color: white;
+    animation: scaleUpAndDown 250ms;
+  }
+
+  :global(.btn--launch:focus.focus-visible .btn__icon--rest),
   .btn--launch:hover .btn__icon--rest {
     opacity: 0;
   }
@@ -42,7 +62,7 @@
     opacity: 0;
   }
 
-  .btn--launch:focus .btn__icon--active,
+  :global(.btn--launch:focus.focus-visible .btn__icon--active),
   .btn--launch:hover .btn__icon--active {
     transform: translateX(0);
     opacity: 1;
@@ -71,6 +91,18 @@
     grid-template-columns: minmax(10em, 1fr) auto;
     gap: 0.5rem;
   }
+
+  @keyframes scaleUpAndDown {
+    0% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.4);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 </style>
 
 <ul class="environment-list">
@@ -79,8 +111,11 @@
       <li class="environment-item">
         <button
           class="btn btn--icon-text btn--launch btn--ghost"
-          on:click={() => launch(environment)}>
-          <svg class="btn__icon btn__icon--active">
+          on:click={event => onLaunch(event, environment)}>
+          <svg
+            on:animationend={onAnimationEnd}
+            class="btn__icon btn__icon--active"
+            class:animating={environment.id === animatingEnvironmentId}>
             <use xlink:href="#svg-play" />
           </svg>
           <svg class="btn__icon btn__icon--rest">
