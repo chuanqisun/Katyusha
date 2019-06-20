@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "chromedriver": "75.0.0",
-    "selenium-webdriver": "^4.0.0-alpha.1"
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "focus-visible": "^5.0.0"
   }
 }
