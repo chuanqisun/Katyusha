@@ -7,7 +7,14 @@
     environmentDetailsStore
   } from "../stores";
 
+  import { onMount } from "svelte";
+
   const environmentDetails = $environmentDetailsStore;
+  let autoFocusElement;
+
+  onMount(() => {
+    autoFocusElement.focus();
+  });
 
   async function onSubmit(e) {
     if (e.target.reportValidity()) {
@@ -93,6 +100,7 @@
   <div class="form__field">
     <label class="label label--field" for="name">Name</label>
     <input
+      bind:this={autoFocusElement}
       id="name"
       type="text"
       on:focus={selectInputContent}
