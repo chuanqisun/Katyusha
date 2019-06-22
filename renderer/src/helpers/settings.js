@@ -1,7 +1,7 @@
 const fs = require('fs');
 const app = require('electron').remote.app;
 const path = require('path');
-import { settingsFilename, environmentsFilename } from '../../app.config';
+import { settingsFilename, environmentsFilename } from '../../../app.config';
 import { writeJsonFile } from './file-system';
 
 const userDataPath = app.getPath('userData');
