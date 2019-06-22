@@ -65,14 +65,15 @@
     padding: 0 0.5rem;
     font-size: 1rem;
     border: none;
-    background-color: white;
+    color: var(--input-field-text-color);
+    background-color: var(--input-field-background-color);
   }
 
   input[type="text"]:focus,
   input[type="url"]:focus,
   input[type="password"]:focus {
-    color: white;
-    background-color: #222;
+    color: var(--input-field-focus-text-color);
+    background-color: var(--input-field-focus-background-color);
   }
 
   input[type="radio"] {

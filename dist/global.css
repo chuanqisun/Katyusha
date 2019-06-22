@@ -1,6 +1,30 @@
 :root {
   --icon-size-16: 1rem;
   --icon-size-24: 1.5rem;
+  --focus-outline-color: rgb(255, 123, 0);
+  --app-background-color: #222;
+  --app-text-color: #aaa;
+  --menu-bar-background-color: #333;
+  --menu-bar-background-color-hover: #444;
+  --menu-bar-text-color: #ccc;
+  --menu-bar-text-color-strong: white;
+  --menu-bar-destructive-background: #d0062a;
+  --button-default-text-color: #aaa;
+  --button-default-hover-text-color: white;
+  --button-default-hover-background-color: black;
+  --button-primary-text-color: #222;
+  --button-primary-background-color: rgb(255, 123, 0);
+  --button-primary-hover-text-color: black;
+  --button-primary-hover-background-color: rgb(253, 141, 36);
+  --button-secondary-background-color: #111;
+  --button-dangerous-background-color: #111;
+  --button-dangerous-hover-text-color: black;
+  --button-dangerous-hover-background-color: rgb(255, 83, 83);
+  --input-field-text-color: #ccc;
+  --input-field-background-color: #444;
+  --input-field-focus-text-color: white;
+  --input-field-focus-background-color: black;
+  --launch-icon-color: rgb(255, 123, 0);
 }
 
 /*
@@ -12,7 +36,7 @@
 }
 
 .focus-visible {
-  outline: 2px solid orange;
+  outline: 2px dashed var(--focus-outline-color);
 }
 
 html {
@@ -25,8 +49,8 @@ body {
   height: 100%;
   display: grid;
   grid-template-rows: auto 1fr;
-  /* background-color: rgb(255, 229, 214); */
-  background: linear-gradient(hsl(22, 100%, 90%), hsl(0, 100%, 90%));
+  color: var(--app-text-color);
+  background-color: var(--app-background-color);
 }
 
 button {
@@ -49,6 +73,18 @@ button {
   border-color: transparent;
   border-radius: 1.25rem;
   padding: 0 1rem;
+  color: var(--button-default-text-color);
+  will-change: transform;
+}
+
+.btn:hover {
+  transform: translateY(1px);
+  color: var(--button-default-hover-text-color);
+  background-color: var(--button-default-hover-background-color);
+}
+
+.btn:active {
+  transform: translateY(2px);
 }
 
 .btn--square {
@@ -58,29 +94,25 @@ button {
 }
 
 .btn--primary {
-  background-color: #222;
-  color: white;
+  color: var(--button-primary-text-color);
+  background-color: var(--button-primary-background-color);
 }
 .btn--primary:hover {
-  background-color: black;
+  color: var(--button-primary-hover-text-color);
+  background-color: var(--button-primary-hover-background-color);
 }
 
-.btn--dangerous,
 .btn--secondary {
-  border-color: #222;
+  background-color: var(--button-secondary-background-color);
 }
 
-.btn--ghost:hover,
-.btn--secondary:hover {
-  color: white;
-  border-color: black;
-  background-color: black;
+.btn--dangerous {
+  background-color: var(--button-dangerous-background-color);
 }
 
 .btn--dangerous:hover {
-  border-color: red;
-  background-color: red;
-  color: white;
+  color: var(--button-dangerous-hover-text-color);
+  background-color: var(--button-dangerous-hover-background-color);
 }
 
 .btn--icon-text {

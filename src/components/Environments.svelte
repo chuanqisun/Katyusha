@@ -42,11 +42,12 @@
   }
 
   .btn__icon--active {
+    color: var(--launch-icon-color);
     --fill-color: transparent;
   }
 
   .btn__icon--active.animating {
-    --fill-color: white;
+    --fill-color: var(--launch-icon-color);
     animation: scaleUpAndDown 250ms;
   }
 
@@ -110,6 +111,7 @@
     {#each $environmentsStore as environment}
       <li class="environment-item">
         <button
+          title="Launch {environment.name}"
           class="btn btn--icon-text btn--launch btn--ghost"
           on:click={event => onLaunch(event, environment)}>
           <svg
@@ -127,7 +129,8 @@
           class="btn btn--icon-only btn--edit btn--square btn--ghost"
           on:click={() => onOpenEditEnvironmentFormByEnvironmentId(environment.id)}>
           <svg class="btn__icon">
-            <use xlink:href="#svg-edit" />
+            <title>Edit environment</title>
+            <use xlink:href="#svg-sliders" />
           </svg>
         </button>
       </li>

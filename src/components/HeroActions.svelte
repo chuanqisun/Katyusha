@@ -38,6 +38,7 @@
     on:click={onOpenAppSettingsForm}
     class="btn btn--icon-only btn--square btn--ghost">
     <svg class="btn__icon">
+      <title>App settings</title>
       <use xlink:href="#svg-settings" />
     </svg>
   </button>

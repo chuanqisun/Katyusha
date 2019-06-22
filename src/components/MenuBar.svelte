@@ -5,12 +5,7 @@
 <style>
   :root {
     --menu-bar-height: 1.875rem;
-    --menu-bar-background-color: #323130;
-    --menu-bar-background-color-hover: #505050;
-    --menu-bar-text-color: #cccccc;
-    --menu-bar-text-color-strong: white;
     --window-action-width: 2.875rem;
-    --window-action-destructive-background: #d0062a;
   }
 
   .app-menu {
@@ -21,6 +16,9 @@
     justify-content: space-between;
     background-color: var(--menu-bar-background-color);
     color: var(--menu-bar-text-color);
+
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+      0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   }
 
   .app-menu__title {
@@ -49,7 +47,7 @@
   }
 
   .app-menu__window-action--destructive:hover {
-    background-color: var(--window-action-destructive-background);
+    background-color: var(--menu-bar-destructive-background);
   }
 
   .icon {
