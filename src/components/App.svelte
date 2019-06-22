@@ -8,25 +8,24 @@
     environmentsStore,
     fullScreenModalStore
   } from "../stores";
-
-  $: {
-    console.dir($settingsStore);
-    console.dir($environmentsStore);
-  }
+  import { fly } from "svelte/transition";
 </script>
 
 <style>
   .app-body {
     padding: 1.5rem 1rem 1rem 1rem;
     overflow-y: auto;
+    overflow-x: hidden; /* prevent scroll bar during fly-in transition */
   }
 </style>
 
 <MenuBar />
 <div class="app-body">
   {#if !$fullScreenModalStore.component}
-    <HeroActions />
-    <Environments />
+    <div in:fly={{ x: -200, duration: 250 }}>
+      <HeroActions />
+      <Environments />
+    </div>
   {/if}
   <FullScreenModal />
 </div>
