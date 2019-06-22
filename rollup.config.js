@@ -5,18 +5,18 @@ import { terser } from 'rollup-plugin-terser';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-  input: 'src/main.js',
+  input: 'renderer/src/main.js',
   output: {
     sourcemap: true,
     format: 'cjs',
     name: 'app',
-    file: 'dist/bundle.js',
+    file: 'renderer/dist/bundle.js',
   },
   plugins: [
     svelte({
       dev: !production,
       css: css => {
-        css.write('dist/bundle.css');
+        css.write('renderer/dist/bundle.css');
       },
     }),
     production && terser(),

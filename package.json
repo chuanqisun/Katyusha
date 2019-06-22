@@ -7,7 +7,9 @@
     "start": "run-p start:electron autobuild",
     "start:electron": "electron .",
     "build": "rollup -c",
-    "autobuild": "rollup -c -w"
+    "autobuild": "rollup -c -w",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "repository": "https://github.com/chuanqisun/katyusha",
   "keywords": [],
@@ -27,5 +29,6 @@
     "chromedriver": "75.0.0",
     "selenium-webdriver": "^4.0.0-alpha.3",
     "focus-visible": "^5.0.1"
-  }
+  },
+  "appId": "com.katyusha.app"
 }
