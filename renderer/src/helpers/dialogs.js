@@ -14,7 +14,7 @@ export function confirmRemoveEnvironment(environmentName) {
   return decision === 0;
 }
 
-export function getExportEnvironmentsPath() {
+export function exportEnvironmentToFile() {
   return dialog.showSaveDialog({
     title: `Export sites to file`,
     defaultPath: 'environments.json',
@@ -27,7 +27,7 @@ export function getExportEnvironmentsPath() {
   });
 }
 
-export function updateDownloadPrompt({ latestVersion, currentVersion, downloadUrl }) {
+export function updateAvailable({ latestVersion, currentVersion, downloadUrl }) {
   const { shell } = require('electron').remote;
 
   dialog.showMessageBox(

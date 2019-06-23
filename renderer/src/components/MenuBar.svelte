@@ -1,7 +1,7 @@
 <script>
   const { ipcRenderer } = require("electron");
   import { updateServiceStore } from "../stores";
-  import { updateDownloadPrompt } from "../helpers/dialogs";
+  import { updateAvailable } from "../helpers/dialogs";
   import { getLatestReleaseUrl, getAppVersion } from "../helpers/metadata";
 
   function onClickUpdate() {
@@ -10,7 +10,7 @@
     const currentVersion = getAppVersion();
     const downloadUrl = getLatestReleaseUrl();
 
-    updateDownloadPrompt({ latestVersion, currentVersion, downloadUrl });
+    updateAvailable({ latestVersion, currentVersion, downloadUrl });
   }
 </script>
 

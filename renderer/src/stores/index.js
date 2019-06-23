@@ -1,5 +1,5 @@
 import { get, writable } from 'svelte/store';
-import { confirmRemoveEnvironment, getExportEnvironmentsPath } from '../helpers/dialogs';
+import { confirmRemoveEnvironment, exportEnvironmentToFile } from '../helpers/dialogs';
 import { ensureGetEnvironments, getNextEnvironmentId, writeEnvironments, exportEnvironments } from '../helpers/environments';
 import { ensureGetSettings } from '../helpers/settings';
 import { getMetadata, getAppVersion } from '../helpers/metadata';
@@ -37,6 +37,8 @@ export async function intializeMetadataStore() {
 /* =============*/
 /* App settings */
 /* =============*/
+export async function importEnvironments() {}
+
 export async function exportAllEnvironments() {
   const environments = get(environmentsStore);
   const portalEnvironments = environments.map(environment => {
@@ -44,14 +46,10 @@ export async function exportAllEnvironments() {
     return portableEnvironment;
   });
 
-  const path = getExportEnvironmentsPath();
+  const path = exportEnvironmentToFile();
   if (path) {
     await exportEnvironments(path, portalEnvironments);
   }
-}
-
-export async function importEnvironments() {
-  //noop
 }
 
 /* =================*/
