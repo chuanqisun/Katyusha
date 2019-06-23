@@ -1,7 +1,7 @@
 const fs = require('fs');
 const app = require('electron').remote.app;
 const path = require('path');
-import { writeJsonFile } from './file-system';
+import { readJsonFile, writeJsonFile } from './file-system';
 
 const settingsFilename = 'settings.json';
 const environmentsFilename = 'environments.json';
@@ -19,19 +19,15 @@ export async function ensureGetSettings() {
 }
 
 async function tryGetSettingsFile() {
-  return new Promise(resolve => {
-    console.log(`[settings] reading ${settingsFilePath}`);
-    fs.readFile(settingsFilePath, (err, data) => {
-      if (!err) {
-        console.log(`[settings] success`);
-        resolve(JSON.parse(data));
-      } else {
-        console.log(err);
-        console.log('[settings] file does not exist');
-        resolve(null);
-      }
+  return await readJsonFile(settingsFilePath)
+    .then(object => {
+      console.log(`[settings] read from ${settingsFilePath} success`);
+      return object;
+    })
+    .catch(err => {
+      console.log(`[settings] read from ${settingsFilePath} failed: ${err}`);
+      return null;
     });
-  });
 }
 
 async function createSettingsFile() {

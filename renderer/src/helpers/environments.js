@@ -1,6 +1,6 @@
 const fs = require('fs');
 import { getNextIdFromArrayOfInts } from './unique-id';
-import { writeJsonFile } from './file-system';
+import { readJsonFile, writeJsonFile } from './file-system';
 
 export async function ensureGetEnvironments(environmentsFilePath) {
   let environments = await tryGetEnvironmentsFile(environmentsFilePath);
@@ -29,19 +29,15 @@ export function getNextEnvironmentId(environments) {
 }
 
 async function tryGetEnvironmentsFile(environmentsFilePath) {
-  return new Promise(resolve => {
-    console.log(`[environments] reading ${environmentsFilePath}`);
-    fs.readFile(environmentsFilePath, (err, data) => {
-      if (!err) {
-        console.log(`[environments] success`);
-        resolve(JSON.parse(data));
-      } else {
-        console.log(err);
-        console.log('[environments] file does not exist');
-        resolve(null);
-      }
+  return await readJsonFile(environmentsFilePath)
+    .then(object => {
+      console.log(`[environments] read from ${environmentsFilePath} success`);
+      return object;
+    })
+    .catch(err => {
+      console.log(`[environments] read from ${environmentsFilePath} failed: ${err}`);
+      return null;
     });
-  });
 }
 
 function getDefaultEnvironments() {
