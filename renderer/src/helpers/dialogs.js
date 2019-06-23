@@ -26,3 +26,24 @@ export function getExportEnvironmentsPath() {
     ],
   });
 }
+
+export function updateDownloadPrompt({ latestVersion, currentVersion, downloadUrl }) {
+  const { shell } = require('electron').remote;
+
+  dialog.showMessageBox(
+    {
+      buttons: ['Open download page', 'Maybe later'],
+      title: 'Update available',
+      message: `
+${latestVersion} is ready for download.
+    `.trim(),
+      detail: `Your current version is ${currentVersion}.`,
+      cancelId: 1,
+    },
+    response => {
+      if (response === 0) {
+        shell.openExternal(downloadUrl);
+      }
+    }
+  );
+}

@@ -9,6 +9,26 @@ interface Environment {
 
 type PortableEnvironment = Omit<Environment, 'id'>;
 
-interface EnvironmentDetailsForm extends Environment {
+interface EnvironmentDetailsStore extends Environment {
   mode: 'create' | 'edit';
+}
+
+interface EnvironmentsStore {
+  [index: number]: Environment;
+}
+
+interface UpdateServiceStore extends Metadata {
+  needUpdate: boolean;
+}
+
+interface Metadata {
+  supportedVersions: string[];
+}
+
+interface FullScreenModalStore {
+  component: any /* Svelte component */;
+}
+
+interface SettingsStore {
+  environmentsFilePath: string;
 }

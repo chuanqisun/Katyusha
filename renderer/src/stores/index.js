@@ -2,20 +2,36 @@ import { get, writable } from 'svelte/store';
 import { confirmRemoveEnvironment, getExportEnvironmentsPath } from '../helpers/dialogs';
 import { ensureGetEnvironments, getNextEnvironmentId, writeEnvironments, exportEnvironments } from '../helpers/environments';
 import { ensureGetSettings } from '../helpers/settings';
+import { getMetadata, getAppVersion } from '../helpers/metadata';
 
 export const environmentsStore = writable(null);
 export const settingsStore = writable(null);
 export const fullScreenModalStore = writable({ component: null });
-export const environmentDetailsStore = writable({ component: null });
+export const environmentDetailsStore = writable(null);
+export const updateServiceStore = writable({});
 
 initializeStores();
 
 async function initializeStores() {
+  intializeMetadataStore(); // non-blocking
   const settings = await ensureGetSettings();
   settingsStore.set(settings);
   const environments = await ensureGetEnvironments(settings.environmentsFilePath);
   environmentsStore.set(environments);
   return environments;
+}
+
+/* =========*/
+/* Metadata */
+/* =========*/
+export async function intializeMetadataStore() {
+  const metadata = await getMetadata();
+  const currentVersion = getAppVersion();
+  const needUpdate = !metadata.supportedVersions.includes(currentVersion);
+  updateServiceStore.set({
+    needUpdate,
+    supportedVersions: metadata.supportedVersions,
+  });
 }
 
 /* =============*/

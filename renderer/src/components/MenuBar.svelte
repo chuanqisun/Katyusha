@@ -1,5 +1,17 @@
 <script>
   const { ipcRenderer } = require("electron");
+  import { updateServiceStore } from "../stores";
+  import { updateDownloadPrompt } from "../helpers/dialogs";
+  import { getLatestReleaseUrl, getAppVersion } from "../helpers/metadata";
+
+  function onClickUpdate() {
+    const { supportedVersions } = $updateServiceStore;
+    const latestVersion = supportedVersions[supportedVersions.length - 1];
+    const currentVersion = getAppVersion();
+    const downloadUrl = getLatestReleaseUrl();
+
+    updateDownloadPrompt({ latestVersion, currentVersion, downloadUrl });
+  }
 </script>
 
 <style>
@@ -21,11 +33,32 @@
       0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   }
 
-  .app-menu__title {
+  .app-menu__action {
+    color: var(--menu-bar-text-color);
+    background-color: var(--menu-bar-background-color);
+    border: none;
+    outline-offset: -2px;
+  }
+
+  .app-menu__action:not([disabled]):hover {
+    color: var(--menu-bar-text-color-strong);
+    background-color: var(--menu-bar-background-color-hover);
+  }
+
+  .app-menu__title-action {
     margin-left: 1rem;
     display: flex;
     align-items: center;
     font-size: 0.875rem;
+  }
+
+  .app-menu__title-action.has-update::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--update-prompt-color);
+    transform: translate(2px, -6px);
   }
 
   .app-menu__window-actions {
@@ -33,20 +66,11 @@
   }
 
   .app-menu__window-action {
-    color: var(--menu-bar-text-color);
-    background-color: var(--menu-bar-background-color);
-    border: none;
     width: var(--window-action-width);
     height: 100%;
-    outline-offset: -2px;
   }
 
-  .app-menu__window-action:hover {
-    color: var(--menu-bar-text-color-strong);
-    background-color: var(--menu-bar-background-color-hover);
-  }
-
-  .app-menu__window-action--destructive:hover {
+  .app-menu__window-action--close:hover {
     background-color: var(--menu-bar-destructive-background);
   }
 
@@ -57,17 +81,25 @@
 </style>
 
 <header class="app-menu">
-  <div class="app-menu__title">Katyusha</div>
+  <button
+    on:click={onClickUpdate}
+    disabled={!$updateServiceStore.needUpdate}
+    title={$updateServiceStore.needUpdate ? 'Update available' : null}
+    class:has-update={$updateServiceStore.needUpdate}
+    class="app-menu__title-action app-menu__action">
+    Katyusha
+  </button>
   <div class="app-menu__window-actions">
     <button
-      class="app-menu__window-action"
+      class="app-menu__action app-menu__window-action"
       on:click={() => ipcRenderer.send('tryMinimize')}>
       <svg class="icon">
         <use xlink:href="#svg-minimize" />
       </svg>
     </button>
     <button
-      class="app-menu__window-action app-menu__window-action--destructive"
+      class="app-menu__action app-menu__window-action
+      app-menu__window-action--close"
       on:click={() => ipcRenderer.send('tryClose')}>
       <svg class="icon">
         <use xlink:href="#svg-close" />
