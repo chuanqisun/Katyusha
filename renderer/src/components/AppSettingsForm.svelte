@@ -1,6 +1,7 @@
 <script>
   import {
     closeFullScreenModal,
+    importEnvironments,
     exportAllEnvironments,
     environmentsStore
   } from "../stores";
@@ -13,7 +14,8 @@
   }
 
   async function onImport() {
-    //TODO implement import logic
+    await importEnvironments();
+    closeFullScreenModal();
   }
   async function onExport() {
     exportAllEnvironments();

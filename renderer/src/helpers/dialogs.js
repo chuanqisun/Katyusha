@@ -14,10 +14,22 @@ export function confirmRemoveEnvironment(environmentName) {
   return decision === 0;
 }
 
+export function importEnvironmentsFromFile() {
+  return dialog.showOpenDialog({
+    title: `Import sites from file`,
+    defaultPath: 'environments.json',
+    filters: [
+      {
+        name: 'json',
+        extensions: ['json'],
+      },
+    ],
+  });
+}
+
 export function exportEnvironmentToFile() {
   return dialog.showSaveDialog({
     title: `Export sites to file`,
-    defaultPath: 'environments.json',
     filters: [
       {
         name: 'json',

@@ -1,6 +1,13 @@
 import { get, writable } from 'svelte/store';
-import { confirmRemoveEnvironment, exportEnvironmentToFile } from '../helpers/dialogs';
-import { ensureGetEnvironments, getNextEnvironmentId, writeEnvironments, exportEnvironments } from '../helpers/environments';
+import { confirmRemoveEnvironment, exportEnvironmentToFile, importEnvironmentsFromFile } from '../helpers/dialogs';
+import {
+  ensureGetEnvironments,
+  getNextEnvironmentId,
+  writeEnvironments,
+  exportEnvironments,
+  readEnvironments,
+  mergeEnvironments,
+} from '../helpers/environments';
 import { ensureGetSettings } from '../helpers/settings';
 import { getMetadata, getAppVersion } from '../helpers/metadata';
 
@@ -37,7 +44,28 @@ export async function intializeMetadataStore() {
 /* =============*/
 /* App settings */
 /* =============*/
-export async function importEnvironments() {}
+export async function importEnvironments() {
+  const importFilePaths = importEnvironmentsFromFile();
+  let importFilePath;
+  if (importFilePaths && importFilePaths[0]) {
+    importFilePath = importFilePaths[0];
+  } else {
+    return;
+  }
+
+  const incomingEnvironments = await readEnvironments(importFilePath);
+  if (!incomingEnvironments) {
+    return;
+  }
+
+  const existingEnvironments = get(environmentsStore);
+  const mergedEnvironments = mergeEnvironments(incomingEnvironments, existingEnvironments);
+
+  const settings = get(settingsStore);
+  await writeEnvironments(settings.environmentsFilePath, mergedEnvironments);
+  environmentsStore.set(mergedEnvironments);
+  return mergeEnvironments;
+}
 
 export async function exportAllEnvironments() {
   const environments = get(environmentsStore);

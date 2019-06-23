@@ -3,7 +3,7 @@ import { getNextIdFromArrayOfInts } from './unique-id';
 import { readJsonFile, writeJsonFile } from './file-system';
 
 export async function ensureGetEnvironments(environmentsFilePath) {
-  let environments = await tryGetEnvironmentsFile(environmentsFilePath);
+  let environments = await readEnvironments(environmentsFilePath);
   if (!environments) {
     const fileContent = getDefaultEnvironments();
     environments = await writeEnvironments(environmentsFilePath, fileContent);
@@ -18,17 +18,7 @@ export async function writeEnvironments(environmentsFilePath, fileContent) {
   return fileContent;
 }
 
-export async function exportEnvironments(exportPath, environments) {
-  await writeJsonFile(exportPath, environments);
-  console.log(`[environments] environments exported to ${exportPath}`);
-}
-
-export function getNextEnvironmentId(environments) {
-  const existingIds = environments.map(environment => environment.id);
-  return getNextIdFromArrayOfInts(existingIds);
-}
-
-async function tryGetEnvironmentsFile(environmentsFilePath) {
+export async function readEnvironments(environmentsFilePath) {
   return await readJsonFile(environmentsFilePath)
     .then(object => {
       console.log(`[environments] read from ${environmentsFilePath} success`);
@@ -38,6 +28,32 @@ async function tryGetEnvironmentsFile(environmentsFilePath) {
       console.log(`[environments] read from ${environmentsFilePath} failed: ${err}`);
       return null;
     });
+}
+
+export function mergeEnvironments(incomingEnvironment, existingEnvrionments) {
+  const willAdd = [];
+  const environmentsWithId = [...existingEnvrionments];
+
+  for (let environment of incomingEnvironment) {
+    // TODO add dedupe against existing
+    // TODO allow update, instead of merge, interactive
+    const id = getNextEnvironmentId(environmentsWithId);
+    const environmentWithId = { ...environment, id };
+    willAdd.push(environmentWithId);
+    environmentsWithId.push(environmentWithId);
+  }
+
+  return [...existingEnvrionments, ...willAdd];
+}
+
+export async function exportEnvironments(exportPath, environments) {
+  await writeJsonFile(exportPath, environments);
+  console.log(`[environments] environments exported to ${exportPath}`);
+}
+
+export function getNextEnvironmentId(environments) {
+  const existingIds = environments.map(environment => environment.id);
+  return getNextIdFromArrayOfInts(existingIds);
 }
 
 function getDefaultEnvironments() {
