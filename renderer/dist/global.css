@@ -54,7 +54,7 @@ body {
   background-color: var(--app-background-color);
 }
 
-button {
+button:not([disabled]) {
   -webkit-app-region: no-drag;
 }
 
