@@ -9,7 +9,7 @@
     "build": "rollup -c",
     "autobuild": "rollup -c -w",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder --windows"
   },
   "repository": "https://github.com/chuanqisun/katyusha",
   "keywords": [],
@@ -30,5 +30,8 @@
     "selenium-webdriver": "^4.0.0-alpha.3",
     "focus-visible": "^5.0.1"
   },
-  "appId": "com.katyusha.app"
+  "build": {
+    "appId": "com.katyusha.app",
+    "asar": false
+  }
 }
