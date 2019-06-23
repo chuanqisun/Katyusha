@@ -109,7 +109,7 @@ export function hydrateEnvironmentDetailsFormToCreate() {
     url: '',
     username: '',
     password: '',
-    auth: 'aad-basic',
+    auth: 'manual',
   });
 }
 

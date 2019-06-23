@@ -119,23 +119,23 @@
     <span class="label label--field">Sign in</span>
     <div class="radio-option">
       <input
-        id="auth-aad-basic"
-        name="auth"
-        type="radio"
-        value="aad-basic"
-        bind:group={environmentDetails.auth} />
-      <label class="label label--inline" for="auth-aad-basic">
-        AAD username + password
-      </label>
-    </div>
-    <div class="radio-option">
-      <input
         id="auth-manual"
         name="auth"
         type="radio"
         value="manual"
         bind:group={environmentDetails.auth} />
       <label class="label label--inline" for="auth-manual">Manual</label>
+    </div>
+    <div class="radio-option">
+      <input
+        id="auth-aad-basic"
+        name="auth"
+        type="radio"
+        value="aad-basic"
+        bind:group={environmentDetails.auth} />
+      <label class="label label--inline" for="auth-aad-basic">
+        <abbr title="Azure Active Directory">AAD</abbr> username + password
+      </label>
     </div>
   </div>
 
