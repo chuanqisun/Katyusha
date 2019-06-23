@@ -33,7 +33,7 @@
     "focus-visible": "^5.0.1"
   },
   "build": {
-    "artifactName": "${name}-${version}-${os}.${ext}",
+    "artifactName": "${name}-${version}.${ext}",
     "productName": "Katyusha",
     "appId": "com.katyusha.app",
     "asar": false,
