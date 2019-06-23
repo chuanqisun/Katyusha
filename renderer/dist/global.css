@@ -86,7 +86,6 @@ button:not([disabled]) {
 }
 
 .btn:hover {
-  transform: translateY(1px);
   color: var(--button-default-hover-text-color);
   background-color: var(--button-default-hover-background-color);
 }
