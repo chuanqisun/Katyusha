@@ -9,5 +9,4 @@ A website launcher for demo and test
 
 ## Roadmap
 
-- [ ] import from file
 - [ ] drag n drop to reorder

@@ -1,8 +1,10 @@
 <script>
   import {
     openFullScreenModal,
-    hydrateEnvironmentDetailsFormToCreate
+    hydrateEnvironmentDetailsFormToCreate,
+    updateServiceStore
   } from "../stores";
+
   import EnvironmentDetailsForm from "./EnvironmentDetailsForm.svelte";
   import AppSettingsForm from "./AppSettingsForm.svelte";
 
@@ -23,6 +25,20 @@
     grid-template-columns: 1fr auto;
     gap: 0.5rem;
   }
+
+  .btn__settings {
+    position: relative;
+  }
+
+  .btn__update-indicator {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--update-prompt-color);
+  }
 </style>
 
 <div class="hero-actions">
@@ -35,11 +51,14 @@
     <span class="btn__text">Add a site</span>
   </button>
   <button
+    title={$updateServiceStore.needUpdate ? '[Updates available] App settings' : 'App settings'}
     on:click={onOpenAppSettingsForm}
-    class="btn btn--icon-only btn--square btn--ghost">
+    class="btn btn__settings btn--icon-only btn--square btn--ghost">
     <svg class="btn__icon">
-      <title>App settings</title>
       <use xlink:href="#svg-settings" />
     </svg>
+    {#if $updateServiceStore.needUpdate}
+      <div class="btn__update-indicator" />
+    {/if}
   </button>
 </div>

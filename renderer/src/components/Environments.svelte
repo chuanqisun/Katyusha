@@ -126,10 +126,10 @@
           <span class="btn__text">{environment.name}</span>
         </button>
         <button
+          title="Edit site"
           class="btn btn--icon-only btn--edit btn--square btn--ghost"
           on:click={() => onOpenEditEnvironmentFormByEnvironmentId(environment.id)}>
           <svg class="btn__icon">
-            <title>Edit environment</title>
             <use xlink:href="#svg-sliders" />
           </svg>
         </button>

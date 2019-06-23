@@ -1,17 +1,5 @@
 <script>
   const { ipcRenderer } = require("electron");
-  import { updateServiceStore } from "../stores";
-  import { updateAvailable } from "../helpers/dialogs";
-  import { getLatestReleaseUrl, getAppVersion } from "../helpers/metadata";
-
-  function onClickUpdate() {
-    const { supportedVersions } = $updateServiceStore;
-    const latestVersion = supportedVersions[supportedVersions.length - 1];
-    const currentVersion = getAppVersion();
-    const downloadUrl = getLatestReleaseUrl();
-
-    updateAvailable({ latestVersion, currentVersion, downloadUrl });
-  }
 </script>
 
 <style>
@@ -46,26 +34,14 @@
     background-color: var(--menu-bar-background-color-hover);
   }
 
-  .app-menu__title-action {
-    margin-right: auto;
+  .app-menu__title {
+    margin-left: 0.25rem;
     display: flex;
     align-items: center;
     font-size: 0.875rem;
     color: var(--logo-color);
     font-weight: 700;
     height: 100%;
-  }
-
-  .app-menu__title-action.has-update::after {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--update-prompt-color);
-    transform: translate(3px, -6px);
-  }
-  .app-menu__title-action.has-update:hover::after {
-    background-color: var(--update-prompt-hover-color);
   }
 
   .app-menu__window-actions {
@@ -97,17 +73,12 @@
 </style>
 
 <header class="app-menu">
-  <button
-    on:click={onClickUpdate}
-    disabled={!$updateServiceStore.needUpdate}
-    title={$updateServiceStore.needUpdate ? 'Update available' : null}
-    class:has-update={$updateServiceStore.needUpdate}
-    class="app-menu__title-action app-menu__action">
+  <div class="app-menu__title">
     <svg class="app-menu__logo">
       <use xlink:href="#svg-strike" />
     </svg>
     Katyusha
-  </button>
+  </div>
   <div class="app-menu__window-actions">
     <button
       class="app-menu__action app-menu__window-action"

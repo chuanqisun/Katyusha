@@ -9,8 +9,7 @@
   --menu-bar-text-color: #ccc;
   --menu-bar-text-color-strong: white;
   --menu-bar-destructive-background: #d0062a;
-  --update-prompt-color: #aaa;
-  --update-prompt-hover-color: white;
+  --update-prompt-color: rgb(255, 123, 0);
   --logo-color: rgb(255, 123, 0);
   --button-default-text-color: #aaa;
   --button-default-hover-text-color: white;
