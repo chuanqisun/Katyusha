@@ -32,13 +32,13 @@ export function updateDownloadPrompt({ latestVersion, currentVersion, downloadUr
 
   dialog.showMessageBox(
     {
-      buttons: ['Open download page', 'Maybe later'],
-      title: 'Update available',
-      message: `
-${latestVersion} is ready for download.
-    `.trim(),
-      detail: `Your current version is ${currentVersion}.`,
+      type: 'question',
+      message: `Update available`,
+      detail: `A newer version ${latestVersion} is available. Your current version is ${currentVersion}.`,
+      defaultId: 0,
       cancelId: 1,
+      noLink: true,
+      buttons: ['Download from GitHub', 'Cancel'],
     },
     response => {
       if (response === 0) {
