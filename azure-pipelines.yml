@@ -23,7 +23,7 @@ jobs:
         displayName: 'npm install, build, pack, and dist'
       - task: CopyFiles@2
         inputs:
-          Contents: 'dist\*.dmg'
+          Contents: 'dist/*.dmg'
           TargetFolder: 'drop'
       - task: PublishPipelineArtifact@0
         inputs:
