@@ -25,6 +25,7 @@
 
     -webkit-app-region: drag;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     background-color: var(--menu-bar-background-color);
     color: var(--menu-bar-text-color);
@@ -46,10 +47,13 @@
   }
 
   .app-menu__title-action {
-    margin-left: 1rem;
+    margin-right: auto;
     display: flex;
     align-items: center;
     font-size: 0.875rem;
+    color: var(--logo-color);
+    font-weight: 700;
+    height: 100%;
   }
 
   .app-menu__title-action.has-update::after {
@@ -58,7 +62,10 @@
     height: 6px;
     border-radius: 50%;
     background-color: var(--update-prompt-color);
-    transform: translate(2px, -6px);
+    transform: translate(3px, -6px);
+  }
+  .app-menu__title-action.has-update:hover::after {
+    background-color: var(--update-prompt-hover-color);
   }
 
   .app-menu__window-actions {
@@ -78,6 +85,14 @@
     width: var(--icon-size-16);
     height: var(--icon-size-16);
   }
+
+  .app-menu__logo {
+    width: 0.5625rem; /*9px*/
+    height: 1rem; /*16px*/
+    margin-left: 0.25rem;
+    margin-right: 0.05rem;
+    transform: translateY(1px);
+  }
 </style>
 
 <header class="app-menu">
@@ -87,6 +102,9 @@
     title={$updateServiceStore.needUpdate ? 'Update available' : null}
     class:has-update={$updateServiceStore.needUpdate}
     class="app-menu__title-action app-menu__action">
+    <svg class="app-menu__logo">
+      <use xlink:href="#svg-strike" />
+    </svg>
     Katyusha
   </button>
   <div class="app-menu__window-actions">
