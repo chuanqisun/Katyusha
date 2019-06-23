@@ -7,16 +7,38 @@ trigger:
   - master
 
 jobs:
+  - job: osx_build
+  pool:
+    vmImage: 'macOS-10.14'
+
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
+  - script: |
+      npm install
+      npm run build
+      npm run dist:osx
+    displayName: 'npm install, build, pack, and dist'
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'drop-osx'
+      targetPath: dist
+
   - job: win_build
     pool:
-      vmImage: 'vs2017-win2016'
+      vmImage: 'windows-2019'
 
     steps:
       - task: NodeTool@0
         inputs:
           versionSpec: '10.x'
         displayName: 'Install Node.js'
-      - script: npm install && npm run build && npm run dist:win
+      - script: |
+          npm install
+          npm run build
+          npm run dist:win
         displayName: 'npm install, build, pack, and dist'
       - task: DeleteFiles@1
         inputs:

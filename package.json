@@ -9,7 +9,8 @@
     "build": "rollup -c",
     "autobuild": "rollup -c -w",
     "pack": "electron-builder --dir",
-    "dist:win": "electron-builder --windows --publish=never"
+    "dist:win": "electron-builder --windows --publish=never",
+    "dist:osx": "electron-builder --macos --publish=never"
   },
   "repository": "https://github.com/chuanqisun/katyusha",
   "keywords": [],
