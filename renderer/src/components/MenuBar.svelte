@@ -41,7 +41,7 @@
     outline-offset: -2px;
   }
 
-  .app-menu__action:not([disabled]):hover {
+  .app-menu__action:hover {
     color: var(--menu-bar-text-color-strong);
     background-color: var(--menu-bar-background-color-hover);
   }
@@ -70,6 +70,7 @@
 
   .app-menu__window-actions {
     display: flex; /* prevent button-to-button gaps*/
+    height: 100%;
   }
 
   .app-menu__window-action {
