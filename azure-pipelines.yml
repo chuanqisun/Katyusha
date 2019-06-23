@@ -20,7 +20,7 @@ jobs:
         displayName: 'npm install, build, pack, and dist'
       - task: DeleteFiles@1
         inputs:
-          contents: 'win-unpack\**'
+          contents: 'dist\win-unpack\**'
       - task: PublishPipelineArtifact@0
         inputs:
           artifactName: 'drop-win'
