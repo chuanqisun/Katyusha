@@ -22,6 +22,7 @@
   --button-dangerous-background-color: #111;
   --button-dangerous-hover-text-color: black;
   --button-dangerous-hover-background-color: rgb(255, 83, 83);
+  --dragging-element-color: rgb(255, 123, 0);
   --input-field-text-color: #ccc;
   --input-field-background-color: #444;
   --input-field-focus-text-color: white;

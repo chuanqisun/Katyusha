@@ -10,7 +10,11 @@
   import EnvironmentDetailsForm from "./EnvironmentDetailsForm.svelte";
   import { launch } from "../helpers/launch.js";
 
-  let animatingEnvironmentId, animationEndEventListener;
+  let animatingEnvironmentId,
+    animationEndEventListener,
+    isDragging,
+    dragFromIndex,
+    dragToIndex;
 
   function onOpenAddEnvironmentForm() {
     hydrateEnvironmentDetailsFormToCreate();
@@ -30,11 +34,58 @@
   function onAnimationEnd() {
     animatingEnvironmentId = null;
   }
+
+  function onDragStart(e, index) {
+    e.dataTransfer.dropEffect = "move";
+    e.dataTransfer.setDragImage(document.createElement("span"), 0, 0);
+    dragFromIndex = index;
+    dragToIndex = index;
+    isDragging = true;
+  }
+
+  function onDragEnd() {
+    isDragging = false;
+    dragFromIndex = null;
+    dragToIndex = null;
+  }
+
+  function onDragEnter(e, index) {
+    event.preventDefault();
+    dragToIndex = index;
+  }
+
+  function getReorderedEnvironments(
+    isDragging,
+    fromIndex,
+    toIndex,
+    originalEnvironments
+  ) {
+    if (!isDragging) {
+      return originalEnvironments;
+    } else {
+      const newEnvironments = [...originalEnvironments];
+      const [fromEnvironment] = newEnvironments.splice(fromIndex, 1);
+      newEnvironments.splice(toIndex, 0, fromEnvironment);
+      return newEnvironments;
+    }
+  }
+
+  $: reorderedEnviroments = getReorderedEnvironments(
+    isDragging,
+    dragFromIndex,
+    dragToIndex,
+    $environmentsStore
+  );
 </script>
 
 <style>
   .btn--launch {
     position: relative;
+  }
+
+  .btn--launch.dragging {
+    color: inherit;
+    background-color: transparent;
   }
 
   .btn--launch .btn__icon {
@@ -52,7 +103,7 @@
   }
 
   :global(.btn--launch:focus.focus-visible .btn__icon--rest),
-  .btn--launch:hover .btn__icon--rest {
+  .btn--launch:not(.dragging):hover .btn__icon--rest {
     opacity: 0;
   }
 
@@ -64,7 +115,7 @@
   }
 
   :global(.btn--launch:focus.focus-visible .btn__icon--active),
-  .btn--launch:hover .btn__icon--active {
+  .btn--launch:not(.dragging):hover .btn__icon--active {
     transform: translateX(0);
     opacity: 1;
   }
@@ -77,7 +128,7 @@
     opacity: 1;
   }
 
-  .environment-item:hover .btn--edit {
+  .environment-item:hover .btn--edit:not(.dragging) {
     opacity: 1;
   }
 
@@ -85,12 +136,18 @@
     list-style: none;
     margin: 1rem 0 0 0;
     padding: 0;
+    position: relative;
+    display: grid;
   }
 
   .environment-item {
     display: grid;
     grid-template-columns: minmax(10em, 1fr) auto;
     gap: 0.5rem;
+  }
+
+  .environment-item.receiving .btn {
+    color: var(--dragging-element-color);
   }
 
   @keyframes scaleUpAndDown {
@@ -108,11 +165,19 @@
 
 <ul class="environment-list">
   {#if $environmentsStore}
-    {#each $environmentsStore as environment}
-      <li class="environment-item">
+    {#each $environmentsStore as environment, index (environment.id)}
+      <li
+        class="environment-item"
+        class:receiving={dragToIndex === index}
+        on:dragenter={e => onDragEnter(e, index)}
+        on:dragover={e => e.preventDefault()}>
         <button
           title="Launch {environment.name}"
           class="btn btn--icon-text btn--launch btn--ghost"
+          draggable={true}
+          class:dragging={dragFromIndex === index}
+          on:dragstart={e => onDragStart(e, index)}
+          on:dragend={onDragEnd}
           on:click={event => onLaunch(event, environment)}>
           <svg
             on:animationend={onAnimationEnd}
@@ -123,10 +188,11 @@
           <svg class="btn__icon btn__icon--rest">
             <use xlink:href="#svg-dot" />
           </svg>
-          <span class="btn__text">{environment.name}</span>
+          <span class="btn__text">{reorderedEnviroments[index].name} </span>
         </button>
         <button
           title="Edit site"
+          class:dragging={dragFromIndex === index}
           class="btn btn--icon-only btn--edit btn--square btn--ghost"
           on:click={() => onOpenEditEnvironmentFormByEnvironmentId(environment.id)}>
           <svg class="btn__icon">
