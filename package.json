@@ -1,6 +1,6 @@
 {
   "name": "katyusha",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Powerful test and demo launcher",
   "main": "main.js",
   "scripts": {
@@ -36,11 +36,7 @@
     "artifactName": "${name}-${version}.${ext}",
     "productName": "Katyusha",
     "appId": "com.katyusha.app",
-    "asar": false,
-    "files": [
-      "**/*",
-      "build/icon.*"
-    ]
+    "asar": false
   },
   "katyusha": {
     "metadataUrl": "https://raw.githubusercontent.com/chuanqisun/katyusha/master/metadata.json",

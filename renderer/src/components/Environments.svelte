@@ -37,6 +37,7 @@
   }
 
   function onDragStart(e, index) {
+    event.dataTransfer.effectAllowed = "move";
     e.dataTransfer.dropEffect = "move";
     e.dataTransfer.setDragImage(document.createElement("span"), 0, 0);
     dragFromIndex = index;
@@ -90,6 +91,7 @@
   .btn--launch.dragging {
     color: inherit;
     background-color: transparent;
+    transform: translateY(0);
   }
 
   .btn--launch .btn__icon {
@@ -150,8 +152,17 @@
     gap: 0.5rem;
   }
 
-  .environment-item.receiving .btn {
+  .environment-item.receiving .btn--launch {
     color: var(--dragging-element-color);
+    border: 2px dashed var(--dragging-element-color);
+  }
+
+  /* prevent a chrome bug that drag + scroll will cause random items to be in hover state */
+  .environment-list.dragging .btn:not(.dragging) {
+    pointer-events: none;
+  }
+  .environment-list.dragging .btn--edit {
+    opacity: 0 !important;
   }
 
   @keyframes scaleUpAndDown {
@@ -167,7 +178,7 @@
   }
 </style>
 
-<ul class="environment-list">
+<ul class="environment-list" class:dragging={isDragging}>
   {#if $environmentsStore}
     {#each $environmentsStore as environment, index (environment.id)}
       <li

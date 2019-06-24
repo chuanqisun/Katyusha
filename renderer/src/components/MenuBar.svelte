@@ -35,7 +35,7 @@
   }
 
   .app-menu__title {
-    margin-left: 0.25rem;
+    margin-left: 0.5rem;
     display: flex;
     align-items: center;
     font-size: 0.875rem;
@@ -67,7 +67,7 @@
     width: 0.5625rem; /*9px*/
     height: 1rem; /*16px*/
     margin-left: 0.25rem;
-    margin-right: 0.05rem;
+    margin-right: 0.25rem;
     transform: translateY(1px);
   }
 </style>
