@@ -31,6 +31,7 @@ export function importEnvironmentsFromFile() {
 export function exportEnvironmentToFile() {
   return dialog.showSaveDialog({
     title: `Export sites to file`,
+    defaultPath: 'environments.json',
     filters: [
       {
         name: 'json',
