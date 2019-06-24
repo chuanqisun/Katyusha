@@ -8,5 +8,3 @@ A website launcher for demo and test
 2. Microsoft AAD Single-factor sign-in
 
 ## Roadmap
-
-- [ ] drag n drop to reorder

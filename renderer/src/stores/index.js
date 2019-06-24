@@ -113,6 +113,19 @@ export async function removeEnvironment(environmentDetails) {
   return remainingEnvironments;
 }
 
+export async function reorderEnvironments(orderedIdList) {
+  const settings = get(settingsStore);
+  const environments = get(environmentsStore);
+  const reorderedEnvironments = orderedIdList.map(id => {
+    const matchingEnvironment = environments.find(environment => environment.id === id);
+    return { ...matchingEnvironment };
+  });
+  await writeEnvironments(settings.environmentsFilePath, reorderedEnvironments);
+  environmentsStore.set(reorderedEnvironments);
+
+  return reorderedEnvironments;
+}
+
 /* ==================*/
 /* Full screen modal */
 /* ==================*/

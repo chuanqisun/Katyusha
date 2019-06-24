@@ -5,7 +5,8 @@
     environmentDetailsStore,
     openFullScreenModal,
     hydrateEnvironmentDetailsFormToCreate,
-    hydrateEnvironmentDetailsFormToEditByEnvironmentId
+    hydrateEnvironmentDetailsFormToEditByEnvironmentId,
+    reorderEnvironments
   } from "../stores";
   import EnvironmentDetailsForm from "./EnvironmentDetailsForm.svelte";
   import { launch } from "../helpers/launch.js";
@@ -43,7 +44,10 @@
     isDragging = true;
   }
 
-  function onDragEnd() {
+  async function onDragEnd() {
+    const orderedIdList = reorderedEnviroments.map(e => e.id);
+    await reorderEnvironments(orderedIdList);
+
     isDragging = false;
     dragFromIndex = null;
     dragToIndex = null;
