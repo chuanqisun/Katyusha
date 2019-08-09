@@ -1,6 +1,5 @@
 :root {
   --icon-size-16: 1rem;
-  --icon-size-24: 1.5rem;
   --focus-outline-color: rgb(255, 123, 0);
   --app-background-color: #222;
   --app-text-color: #aaa;
@@ -11,23 +10,8 @@
   --menu-bar-destructive-background: #d0062a;
   --update-prompt-color: rgb(255, 123, 0);
   --logo-color: rgb(255, 123, 0);
-  --button-default-text-color: #aaa;
-  --button-default-hover-text-color: white;
-  --button-default-hover-background-color: black;
-  --button-primary-text-color: #222;
-  --button-primary-background-color: rgb(255, 123, 0);
-  --button-primary-hover-text-color: black;
-  --button-primary-hover-background-color: rgb(253, 141, 36);
-  --button-secondary-background-color: #111;
-  --button-dangerous-background-color: #111;
-  --button-dangerous-hover-text-color: black;
-  --button-dangerous-hover-background-color: rgb(255, 83, 83);
-  --dragging-element-color: rgb(255, 123, 0);
-  --input-field-text-color: #ccc;
-  --input-field-background-color: #444;
-  --input-field-focus-text-color: white;
-  --input-field-focus-background-color: black;
-  --launch-icon-color: rgb(255, 123, 0);
+
+  --footer-btn-fg-color: #ccc;
 }
 
 /*
@@ -51,90 +35,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   height: 100%;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   color: var(--app-text-color);
   background-color: var(--app-background-color);
 }
 
-abbr {
-  text-decoration-style: solid;
-  cursor: help;
-}
-
 button:not([disabled]) {
   -webkit-app-region: no-drag;
-}
-
-.btn__icon {
-  width: var(--icon-size-24);
-  height: var(--icon-size-24);
-}
-
-.btn {
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  height: 2.5rem;
-  border-width: 2px;
-  border-style: solid;
-  border-color: transparent;
-  border-radius: 1.25rem;
-  padding: 0 1rem;
-  color: var(--button-default-text-color);
-  will-change: transform;
-}
-
-.btn:hover {
-  color: var(--button-default-hover-text-color);
-  background-color: var(--button-default-hover-background-color);
-}
-
-.btn:active {
-  transform: translateY(2px);
-}
-
-.btn--square {
-  width: 2.5rem;
-  padding: 0;
-  justify-content: center;
-}
-
-.btn--primary {
-  color: var(--button-primary-text-color);
-  background-color: var(--button-primary-background-color);
-}
-.btn--primary:hover {
-  color: var(--button-primary-hover-text-color);
-  background-color: var(--button-primary-hover-background-color);
-}
-
-.btn--secondary {
-  background-color: var(--button-secondary-background-color);
-}
-
-.btn--dangerous {
-  background-color: var(--button-dangerous-background-color);
-}
-
-.btn--dangerous:hover {
-  color: var(--button-dangerous-hover-text-color);
-  background-color: var(--button-dangerous-hover-background-color);
-}
-
-.btn--icon-text {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.btn__text {
-  text-align: left;
-}
-
-.btn__icon + .btn__text {
-  margin-left: 0.5rem;
-}
-
-.btn--launch {
-  justify-content: flex-start;
 }

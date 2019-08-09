@@ -1,5 +1,52 @@
 <script>
+  import { signIn, signOut, authStatusStore } from "../stores/auth";
+  import { updateAvailable, noUpdates } from "../helpers/dialogs";
+  import {
+    supportedVersionsStore,
+    currentVersionStore
+  } from "../stores/appVersion";
   const { ipcRenderer } = require("electron");
+
+  function createMenu() {
+    const { Menu, MenuItem } = require("electron").remote;
+
+    const menu = new Menu();
+    menu.append(
+      new MenuItem({
+        label: "Sign out",
+        click: signOut
+      })
+    );
+    menu.append(new MenuItem({ type: "separator" }));
+    menu.append(
+      new MenuItem({
+        label: "Check for updates",
+        click: onCheckUpdate
+      })
+    );
+
+    return menu;
+  }
+
+  function onCheckUpdate() {
+    const supportedVersions = $supportedVersionsStore;
+    const latestVersion = supportedVersions[supportedVersions.length - 1];
+    const currentVersion = $currentVersionStore;
+
+    if (currentVersion === latestVersion) {
+      noUpdates({ currentVersion });
+    } else {
+      const downloadUrl = getLatestReleaseUrl();
+      updateAvailable({ latestVersion, currentVersion, downloadUrl });
+    }
+  }
+
+  function openMenu() {
+    const { getCurrentWindow } = require("electron").remote;
+    menu.popup({ window: getCurrentWindow() });
+  }
+
+  const menu = createMenu();
 </script>
 
 <style>
@@ -35,6 +82,8 @@
   }
 
   .app-menu__title {
+    background-color: transparent;
+    border: none;
     margin-left: 0.5rem;
     display: flex;
     align-items: center;
@@ -42,6 +91,9 @@
     color: var(--logo-color);
     font-weight: 700;
     height: 100%;
+  }
+  .app-menu__title:hover {
+    background-color: var(--menu-bar-background-color-hover);
   }
 
   .app-menu__window-actions {
@@ -64,21 +116,30 @@
   }
 
   .app-menu__logo {
-    width: 0.5625rem; /*9px*/
-    height: 1rem; /*16px*/
+    width: 0.5625rem; /* 9px */
+    height: 1rem; /* 16px */
     margin-left: 0.25rem;
     margin-right: 0.25rem;
     transform: translateY(1px);
   }
+
+  .app-menu__down-caret {
+    width: 0.5rem; /* 8px */
+    height: 0.375rem; /* 6px */
+    margin-left: 0.25rem;
+  }
 </style>
 
 <header class="app-menu">
-  <div class="app-menu__title">
+  <button class="app-menu__title" on:click={openMenu}>
     <svg class="app-menu__logo">
       <use xlink:href="#svg-strike" />
     </svg>
     Katyusha
-  </div>
+    <svg class="app-menu__down-caret">
+      <use xlink:href="#svg-down-caret" />
+    </svg>
+  </button>
   <div class="app-menu__window-actions">
     <button
       class="app-menu__action app-menu__window-action"
