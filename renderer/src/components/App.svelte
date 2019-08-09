@@ -6,6 +6,8 @@
   import { checkSignInStatus, signIn, authStatusStore } from "../stores/auth";
   import { loadEnvironments } from "../stores/environments";
 
+  const { globalShortcut } = require("electron").remote;
+
   const isSignedIn = checkSignInStatus();
   if (isSignedIn) {
     loadEnvironments();

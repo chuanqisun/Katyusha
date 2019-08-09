@@ -11,3 +11,7 @@ export function getMetadataUrl() {
 export function getEnvironmentsUrl() {
   return packageJson.katyusha.environmentsUrl;
 }
+
+export function getEnvironmentsEditUrl() {
+  return packageJson.katyusha.environmentsEditUrl;
+}

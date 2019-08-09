@@ -28,7 +28,7 @@
     "svelte": "^3.7.1"
   },
   "dependencies": {
-    "chromedriver": "75.0.0",
+    "chromedriver": "76.0.0",
     "selenium-webdriver": "^4.0.0-alpha.4",
     "focus-visible": "^5.0.2"
   },
@@ -40,6 +40,7 @@
   },
   "katyusha": {
     "environmentsUrl": "https://aka.ms/katyusha-environments",
+    "environmentsEditUrl": "https://aka.ms/katyusha-environments-edit",
     "metadataUrl": "https://raw.githubusercontent.com/chuanqisun/katyusha/master/metadata.json",
     "latestReleaseUrl": "https://github.com/chuanqisun/katyusha/releases/latest"
   }

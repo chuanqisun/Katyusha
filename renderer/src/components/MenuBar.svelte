@@ -1,17 +1,21 @@
 <script>
   import { signIn, signOut, authStatusStore } from "../stores/auth";
-  import { updateAvailable, noUpdates } from "../helpers/dialogs";
-  import {
-    supportedVersionsStore,
-    currentVersionStore
-  } from "../stores/appVersion";
-  import { getLatestReleaseUrl } from "../helpers/package";
+  import { editEnvrionments } from "../stores/environments";
+  import { checkUpdate } from "../stores/appVersion";
   const { ipcRenderer } = require("electron");
 
-  function createMenu({ showSignOut }) {
+  function createMenu({ showSignOut, showEditEnvironments }) {
     const { Menu, MenuItem } = require("electron").remote;
 
     const menu = new Menu();
+    showEditEnvironments &&
+      menu.append(
+        new MenuItem({
+          label: "Edit environments",
+          click: onEditEnvironments
+        })
+      );
+    showEditEnvironments && menu.append(new MenuItem({ type: "separator" }));
     menu.append(
       new MenuItem({
         label: "Check for updates",
@@ -30,21 +34,19 @@
     return menu;
   }
 
-  function onCheckUpdate() {
-    const supportedVersions = $supportedVersionsStore;
-    const latestVersion = supportedVersions[supportedVersions.length - 1];
-    const currentVersion = $currentVersionStore;
+  function onEditEnvironments() {
+    editEnvrionments();
+  }
 
-    if (currentVersion === latestVersion) {
-      noUpdates({ currentVersion });
-    } else {
-      const downloadUrl = getLatestReleaseUrl();
-      updateAvailable({ latestVersion, currentVersion, downloadUrl });
-    }
+  export function onCheckUpdate({ silentWhenNoUpdates }) {
+    checkUpdate({ slientWhenNoUpdates: false });
   }
 
   function openMenu() {
-    const menu = createMenu({ showSignOut: $authStatusStore === "signed-in" });
+    const menu = createMenu({
+      showSignOut: $authStatusStore === "signed-in",
+      showEditEnvironments: $authStatusStore === "signed-in"
+    });
     const { getCurrentWindow } = require("electron").remote;
     menu.popup({ window: getCurrentWindow() });
   }

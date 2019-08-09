@@ -11,6 +11,12 @@
   --update-prompt-color: rgb(255, 123, 0);
   --logo-color: rgb(255, 123, 0);
 
+  --launch-btn-text-color: #ccc;
+  --launch-btn-text-color-hover: rgb(255, 123, 0);
+  --launch-btn-indicator-color: rgb(255, 123, 0);
+  --launch-btn-background-color: #333;
+  --launch-btn-background-color-hover: #444;
+
   --footer-btn-fg-color: #ccc;
 }
 
