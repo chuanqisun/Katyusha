@@ -1,31 +1,43 @@
 <script>
   import MenuBar from "./MenuBar.svelte";
   import Environments from "./Environments.svelte";
-  import FullScreenModal from "./FullScreenModal.svelte";
-  import HeroActions from "./HeroActions.svelte";
-  import {
-    settingsStore,
-    environmentsStore,
-    fullScreenModalStore
-  } from "../stores";
-  import { fly } from "svelte/transition";
+
+  import { initializeAppVersionStore } from "../stores/appVersion";
+  import { checkSignInStatus, signIn, authStatusStore } from "../stores/auth";
+  import { loadEnvironments } from "../stores/environments";
+
+  const { globalShortcut } = require("electron").remote;
+
+  const isSignedIn = checkSignInStatus();
+  if (isSignedIn) {
+    loadEnvironments();
+  }
+  initializeAppVersionStore();
+
+  async function onManualSignIn() {
+    const signInSuccess = await signIn();
+    if (signInSuccess) {
+      loadEnvironments();
+    }
+  }
 </script>
 
 <style>
   .app-body {
-    padding: 1.5rem 1rem 1rem 1rem;
-    overflow-y: auto;
-    overflow-x: hidden; /* prevent scroll bar during fly-in transition */
+    overflow: auto;
   }
 </style>
 
 <MenuBar />
 <div class="app-body">
-  {#if !$fullScreenModalStore.component}
-    <div in:fly={{ x: -200, duration: 250 }}>
-      <HeroActions />
-      <Environments />
-    </div>
+  {#if $authStatusStore === 'checking'}
+    <div>checking sign-in status...</div>
   {/if}
-  <FullScreenModal />
+  {#if $authStatusStore === 'signing-in'}
+    <div>signing in...</div>
+  {/if}
+  {#if $authStatusStore === 'signed-out'}
+    <button on:click={onManualSignIn}>Sign in</button>
+  {/if}
+  <Environments />
 </div>

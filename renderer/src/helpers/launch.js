@@ -7,8 +7,8 @@ export async function launch({ url, auth, ...rest }) {
   await driver.get(url);
 
   switch (auth) {
-    case 'aad-basic':
-      console.log('[launch] aad-basic');
+    case 'aad':
+      console.log('[launch] aad');
       const { username, password } = rest;
       await driver.wait(until.elementLocated(By.name('loginfmt')));
       await driver.findElement(By.name('loginfmt')).sendKeys(username, Key.RETURN);
@@ -17,9 +17,9 @@ export async function launch({ url, auth, ...rest }) {
       await driver.wait(until.elementLocated(By.id('KmsiCheckboxField')));
       await driver.findElement(By.id('idSIButton9')).click();
       break;
-    case 'manual':
+    case undefined:
     default:
-      console.log('[launch] manual');
+      console.log('[launch] none');
       break;
   }
 }

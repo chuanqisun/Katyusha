@@ -1,33 +1,10 @@
 <script>
-  import {
-    environmentsStore,
-    fullScreenModalStore,
-    environmentDetailsStore,
-    openFullScreenModal,
-    hydrateEnvironmentDetailsFormToCreate,
-    hydrateEnvironmentDetailsFormToEditByEnvironmentId,
-    reorderEnvironments
-  } from "../stores";
-  import EnvironmentDetailsForm from "./EnvironmentDetailsForm.svelte";
+  import { environmentsStore } from "../stores/environments";
   import { launch } from "../helpers/launch.js";
 
-  let animatingEnvironmentId,
-    animationEndEventListener,
-    isDragging,
-    dragFromIndex,
-    dragToIndex;
+  let animatingEnvironmentId;
 
-  function onOpenAddEnvironmentForm() {
-    hydrateEnvironmentDetailsFormToCreate();
-    openFullScreenModal(EnvironmentDetailsForm);
-  }
-
-  function onOpenEditEnvironmentFormByEnvironmentId(id) {
-    hydrateEnvironmentDetailsFormToEditByEnvironmentId(id);
-    openFullScreenModal(EnvironmentDetailsForm);
-  }
-
-  function onLaunch(event, environment) {
+  function onClickEnvironment(event, environment) {
     animatingEnvironmentId = environment.id;
     launch(environment);
   }
@@ -35,186 +12,86 @@
   function onAnimationEnd() {
     animatingEnvironmentId = null;
   }
-
-  function onDragStart(e, index) {
-    event.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.dropEffect = "move";
-    e.dataTransfer.setDragImage(document.createElement("span"), 0, 0);
-    dragFromIndex = index;
-    dragToIndex = index;
-    isDragging = true;
-  }
-
-  async function onDragEnd() {
-    const orderedIdList = reorderedEnviroments.map(e => e.id);
-    await reorderEnvironments(orderedIdList);
-
-    isDragging = false;
-    dragFromIndex = null;
-    dragToIndex = null;
-  }
-
-  function onDragEnter(e, index) {
-    event.preventDefault();
-    dragToIndex = index;
-  }
-
-  function getReorderedEnvironments(
-    isDragging,
-    fromIndex,
-    toIndex,
-    originalEnvironments
-  ) {
-    if (!isDragging) {
-      return originalEnvironments;
-    } else {
-      const newEnvironments = [...originalEnvironments];
-      const [fromEnvironment] = newEnvironments.splice(fromIndex, 1);
-      newEnvironments.splice(toIndex, 0, fromEnvironment);
-      return newEnvironments;
-    }
-  }
-
-  $: reorderedEnviroments = getReorderedEnvironments(
-    isDragging,
-    dragFromIndex,
-    dragToIndex,
-    $environmentsStore
-  );
 </script>
 
 <style>
-  .btn--launch {
-    position: relative;
-  }
-
-  .btn--launch.dragging {
-    color: inherit;
-    background-color: transparent;
-    transform: translateY(0);
-  }
-
-  .btn--launch .btn__icon {
-    transition: all 250ms;
-  }
-
-  .btn__icon--active {
-    color: var(--launch-icon-color);
-    --fill-color: transparent;
-  }
-
-  .btn__icon--active.animating {
-    --fill-color: var(--launch-icon-color);
-    animation: scaleUpAndDown 250ms;
-  }
-
-  :global(.btn--launch:focus.focus-visible .btn__icon--rest),
-  .btn--launch:not(.dragging):hover .btn__icon--rest {
-    opacity: 0;
-  }
-
-  .btn--launch .btn__icon--active {
-    transform: translateX(-50%);
-    position: absolute;
-    left: 1rem;
-    opacity: 0;
-  }
-
-  :global(.btn--launch:focus.focus-visible .btn__icon--active),
-  .btn--launch:not(.dragging):hover .btn__icon--active {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  .btn--edit {
-    opacity: 0;
-  }
-
-  .btn--edit:focus {
-    opacity: 1;
-  }
-
-  .environment-item:hover .btn--edit:not(.dragging) {
-    opacity: 1;
-  }
-
   .environment-list {
+    padding: 16px;
     list-style: none;
-    margin: 1rem 0 0 0;
-    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    gap: 16px;
+  }
+
+  .launch-button {
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: var(--launch-btn-text-color);
+    background-color: var(--launch-btn-background-color);
     position: relative;
-    display: grid;
+    overflow: hidden;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
   }
 
-  .environment-item {
-    display: grid;
-    grid-template-columns: minmax(10em, 1fr) auto;
-    gap: 0.5rem;
+  .launch-button:hover {
+    color: var(--launch-btn-text-color-hover);
+    background-color: var(--launch-btn-background-color-hover);
   }
 
-  .environment-item.receiving .btn--launch {
-    color: var(--dragging-element-color);
-    border: 2px dashed var(--dragging-element-color);
+  .launch-indicator {
+    height: 2px;
+    background-color: var(--launch-btn-indicator-color);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    will-change: transform, opacity;
+    transform: translateX(-100%);
   }
 
-  /* prevent a chrome bug that drag + scroll will cause random items to be in hover state */
-  .environment-list.dragging .btn:not(.dragging) {
-    pointer-events: none;
-  }
-  .environment-list.dragging .btn--edit {
-    opacity: 0 !important;
+  .launch-indicator.animating {
+    animation: launch 500ms;
+    animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+    animation-fill-mode: backwards;
   }
 
-  @keyframes scaleUpAndDown {
+  @keyframes launch {
     0% {
-      transform: scale(1);
+      transform: translateX(-100%);
+      opacity: 1;
     }
     40% {
-      transform: scale(1.4);
+      transform: translateX(0);
+      opacity: 1;
     }
     100% {
-      transform: scale(1);
+      transform: translateX(0);
+      opacity: 0;
     }
   }
 </style>
 
-<ul class="environment-list" class:dragging={isDragging}>
+<div class="environment-list">
   {#if $environmentsStore}
-    {#each $environmentsStore as environment, index (environment.id)}
-      <li
-        class="environment-item"
-        class:receiving={dragToIndex === index}
-        on:dragenter={e => onDragEnter(e, index)}
-        on:dragover={e => e.preventDefault()}>
-        <button
-          title="Launch {environment.name}"
-          class="btn btn--icon-text btn--launch btn--ghost"
-          draggable={true}
-          class:dragging={dragFromIndex === index}
-          on:dragstart={e => onDragStart(e, index)}
-          on:dragend={onDragEnd}
-          on:click={event => onLaunch(event, environment)}>
-          <svg
-            on:animationend={onAnimationEnd}
-            class="btn__icon btn__icon--active"
-            class:animating={environment.id === animatingEnvironmentId}>
-            <use xlink:href="#svg-play" />
-          </svg>
-          <svg class="btn__icon btn__icon--rest">
-            <use xlink:href="#svg-dot" />
-          </svg>
-          <span class="btn__text">{reorderedEnviroments[index].name} </span>
-        </button>
-        <button
-          title="Edit site"
-          class:dragging={dragFromIndex === index}
-          class="btn btn--icon-only btn--edit btn--square btn--ghost"
-          on:click={() => onOpenEditEnvironmentFormByEnvironmentId(environment.id)}>
-          <svg class="btn__icon">
-            <use xlink:href="#svg-sliders" />
-          </svg>
-        </button>
-      </li>
+    {#each $environmentsStore as environment}
+      <button
+        class="launch-button"
+        on:click={event => onClickEnvironment(event, environment)}>
+        {environment.name}
+        <div
+          class="launch-indicator"
+          on:animationend={onAnimationEnd}
+          class:animating={environment.id === animatingEnvironmentId} />
+      </button>
     {/each}
   {/if}
-</ul>
+</div>

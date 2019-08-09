@@ -1,9 +1,5 @@
 const https = require('https');
-import packageJson from '../../../package';
-
-export function getLatestReleaseUrl() {
-  return packageJson.katyusha.latestReleaseUrl;
-}
+import { getMetadataUrl } from './package';
 
 export function getAppVersion() {
   const { app } = require('electron').remote;
@@ -11,7 +7,7 @@ export function getAppVersion() {
 }
 
 export async function getMetadata() {
-  const url = packageJson.katyusha.metadataUrl;
+  const url = getMetadataUrl();
   return new Promise(resolve => {
     https
       .get(url, resp => {

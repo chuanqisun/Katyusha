@@ -8,3 +8,7 @@ A website launcher for demo and test
 2. Microsoft AAD Single-factor sign-in
 
 ## Roadmap
+
+## Credits
+
+1. Iconset: [Feature](https://feathericons.com/)
