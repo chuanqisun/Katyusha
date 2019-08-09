@@ -34,9 +34,10 @@ export function checkUpdate() {
 
 export function checkCompatibility() {
   const supportedVersions = get(supportedVersionsStore);
+  const latestVersion = supportedVersions[supportedVersions.length - 1];
   const currentVersion = get(currentVersionStore);
 
-  if (supportedVersions.some(version === currentVersion)) {
+  if (supportedVersions.some(version => version === currentVersion)) {
     return;
   } else {
     const downloadUrl = getLatestReleaseUrl();

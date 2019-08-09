@@ -28,7 +28,6 @@
     font-family: inherit;
     font-size: 16px;
     font-weight: 600;
-    color: white;
     border: none;
     border-radius: 4px;
     box-sizing: border-box;
