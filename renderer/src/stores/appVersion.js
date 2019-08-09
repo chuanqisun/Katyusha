@@ -16,16 +16,28 @@ export async function initializeAppVersionStore() {
   needUpdateStore.set(needUpdate);
   supportedVersionsStore.set(metadata.supportedVersions);
 
-  checkUpdate({ silentWhenNoUpdates: true });
+  checkCompatibility();
 }
 
-export function checkUpdate({ silentWhenNoUpdates }) {
+export function checkUpdate() {
   const supportedVersions = get(supportedVersionsStore);
   const latestVersion = supportedVersions[supportedVersions.length - 1];
   const currentVersion = get(currentVersionStore);
 
   if (currentVersion === latestVersion) {
-    !silentWhenNoUpdates && noUpdates({ currentVersion });
+    noUpdates({ currentVersion });
+  } else {
+    const downloadUrl = getLatestReleaseUrl();
+    updateAvailable({ latestVersion, currentVersion, downloadUrl });
+  }
+}
+
+export function checkCompatibility() {
+  const supportedVersions = get(supportedVersionsStore);
+  const currentVersion = get(currentVersionStore);
+
+  if (supportedVersions.some(version === currentVersion)) {
+    return;
   } else {
     const downloadUrl = getLatestReleaseUrl();
     updateAvailable({ latestVersion, currentVersion, downloadUrl });

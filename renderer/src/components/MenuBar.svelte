@@ -38,8 +38,8 @@
     editEnvrionments();
   }
 
-  export function onCheckUpdate({ silentWhenNoUpdates }) {
-    checkUpdate({ slientWhenNoUpdates: false });
+  export function onCheckUpdate() {
+    checkUpdate();
   }
 
   function openMenu() {
