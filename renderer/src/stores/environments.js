@@ -49,8 +49,7 @@ export async function loadEnvironments() {
           resolve(resultObject);
         } catch (e) {
           console.error(e);
-          environmentsStore.set([]);
-          resolve([]);
+          resolve(null);
         }
         console.log('[environment] get environment: json fetched');
       });

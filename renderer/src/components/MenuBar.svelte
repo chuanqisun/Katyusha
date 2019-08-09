@@ -51,9 +51,9 @@
     menu.popup({ window: getCurrentWindow() });
   }
 
-  function trySignOut() {
+  async function trySignOut() {
     const { getCurrentWindow } = require("electron").remote;
-    signOut();
+    await signOut();
     getCurrentWindow().reload();
   }
 </script>
