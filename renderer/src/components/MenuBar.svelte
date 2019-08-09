@@ -5,25 +5,27 @@
     supportedVersionsStore,
     currentVersionStore
   } from "../stores/appVersion";
+  import { getLatestReleaseUrl } from "../helpers/package";
   const { ipcRenderer } = require("electron");
 
-  function createMenu() {
+  function createMenu({ showSignOut }) {
     const { Menu, MenuItem } = require("electron").remote;
 
     const menu = new Menu();
-    menu.append(
-      new MenuItem({
-        label: "Sign out",
-        click: signOut
-      })
-    );
-    menu.append(new MenuItem({ type: "separator" }));
     menu.append(
       new MenuItem({
         label: "Check for updates",
         click: onCheckUpdate
       })
     );
+    showSignOut && menu.append(new MenuItem({ type: "separator" }));
+    showSignOut &&
+      menu.append(
+        new MenuItem({
+          label: "Sign out",
+          click: trySignOut
+        })
+      );
 
     return menu;
   }
@@ -42,11 +44,16 @@
   }
 
   function openMenu() {
+    const menu = createMenu({ showSignOut: $authStatusStore === "signed-in" });
     const { getCurrentWindow } = require("electron").remote;
     menu.popup({ window: getCurrentWindow() });
   }
 
-  const menu = createMenu();
+  function trySignOut() {
+    const { getCurrentWindow } = require("electron").remote;
+    signOut();
+    getCurrentWindow().reload();
+  }
 </script>
 
 <style>
@@ -126,6 +133,7 @@
   .app-menu__down-caret {
     width: 0.5rem; /* 8px */
     height: 0.375rem; /* 6px */
+    margin-top: 0.125rem;
     margin-left: 0.25rem;
   }
 </style>

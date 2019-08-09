@@ -39,6 +39,7 @@
     "asar": false
   },
   "katyusha": {
+    "environmentsUrl": "https://aka.ms/katyusha-environments",
     "metadataUrl": "https://raw.githubusercontent.com/chuanqisun/katyusha/master/metadata.json",
     "latestReleaseUrl": "https://github.com/chuanqisun/katyusha/releases/latest"
   }

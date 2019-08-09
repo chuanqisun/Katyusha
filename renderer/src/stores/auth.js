@@ -1,6 +1,7 @@
 const { BrowserWindow } = require('electron').remote;
 
 import { get, writable } from 'svelte/store';
+import { getEnvironmentsUrl } from '../helpers/package';
 
 export const authStatusStore = writable(null);
 
@@ -14,7 +15,7 @@ export async function checkSignInStatus() {
       show: false,
     });
 
-    tempWindow.loadURL('https://aka.ms/switchboard-environments');
+    tempWindow.loadURL(getEnvironmentsUrl());
 
     tempWindow.webContents.on('dom-ready', () => {
       const url = tempWindow.webContents.getURL();
@@ -59,7 +60,7 @@ export async function signIn() {
 
       tempWindow.setMenu(null);
 
-      tempWindow.loadURL('https://aka.ms/switchboard-environments');
+      tempWindow.loadURL(getEnvironmentsUrl());
 
       tempWindow.webContents.on('dom-ready', () => {
         const url = tempWindow.webContents.getURL();
@@ -70,7 +71,7 @@ export async function signIn() {
         if (url.indexOf('https://microsoft.sharepoint.com') === 0) {
           console.log('[auth] sign in: success. Close window');
           tempWindow.webContents.session.flushStorageData();
-          // tempWindow.destroy();
+          tempWindow.destroy();
           authStatusStore.set('signed-in');
           resolve(true);
         }
@@ -89,7 +90,7 @@ export async function signOut() {
       show: false,
     });
 
-    tempWindow.loadURL('https://aka.ms/switchboard-environments');
+    tempWindow.loadURL(getEnvironmentsUrl());
 
     tempWindow.webContents.on('dom-ready', () => {
       tempWindow.webContents.session.clearStorageData();
