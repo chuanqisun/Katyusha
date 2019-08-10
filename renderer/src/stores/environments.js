@@ -1,5 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { getEnvironmentsUrl, getEnvironmentsEditUrl } from '../helpers/package';
+import { signInBlockerUrlPrefix, signInSuccessUrlPrefix } from './auth';
 const { BrowserWindow } = require('electron').remote;
 
 export async function editEnvrionments() {
@@ -15,13 +16,13 @@ export async function editEnvrionments() {
 
     tempWindow.webContents.on('dom-ready', () => {
       const url = tempWindow.webContents.getURL();
-      if (url.indexOf('https://login.microsoftonline.com') === 0) {
+      if (url.indexOf(signInBlockerUrlPrefix) === 0) {
         tempWindow.destroy();
         console.log('[environment] not signed in');
         resolve(false);
       }
 
-      if (url.indexOf('https://microsoft.sharepoint.com') === 0) {
+      if (url.indexOf(signInSuccessUrlPrefix) === 0) {
         console.log('[environment] editor opened');
         resolve(true);
       }

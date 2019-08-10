@@ -4,6 +4,8 @@ import { get, writable } from 'svelte/store';
 import { getEnvironmentsUrl } from '../helpers/package';
 
 export const authStatusStore = writable(null);
+export const signInBlockerUrlPrefix = 'https://login.microsoftonline.com';
+export const signInSuccessUrlPrefix = 'https://microsoft.sharepoint.com';
 
 export async function checkSignInStatus() {
   authStatusStore.set('checking');
@@ -19,14 +21,14 @@ export async function checkSignInStatus() {
 
     tempWindow.webContents.on('dom-ready', () => {
       const url = tempWindow.webContents.getURL();
-      if (url.indexOf('https://login.microsoftonline.com') === 0) {
+      if (url.indexOf(signInBlockerUrlPrefix) === 0) {
         tempWindow.destroy();
         authStatusStore.set('signed-out');
         console.log('[auth] check sign in status: not signed in');
         resolve(false);
       }
 
-      if (url.indexOf('https://microsoft.sharepoint.com') === 0) {
+      if (url.indexOf(signInSuccessUrlPrefix) === 0) {
         tempWindow.destroy();
         authStatusStore.set('signed-in');
         console.log('[auth] check sign in status: signed in');
@@ -64,11 +66,11 @@ export async function signIn() {
 
       tempWindow.webContents.on('dom-ready', () => {
         const url = tempWindow.webContents.getURL();
-        if (url.indexOf('https://login.microsoftonline.com') === 0) {
+        if (url.indexOf(signInBlockerUrlPrefix) === 0) {
           console.log('[auth] sign in: SSO page displayed');
         }
 
-        if (url.indexOf('https://microsoft.sharepoint.com') === 0) {
+        if (url.indexOf(signInSuccessUrlPrefix) === 0) {
           console.log('[auth] sign in: success. Close window');
           tempWindow.webContents.session.flushStorageData();
           tempWindow.destroy();

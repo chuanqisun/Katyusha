@@ -48,3 +48,30 @@ jobs:
         inputs:
           artifactName: 'drop-win'
           targetPath: drop
+
+  - job: github_release
+    dependsOn:
+      - osx_build
+      - win_build
+    pool:
+      vmImage: 'windows-2019'
+    steps:
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          buildType: 'current'
+          targetPath: '.\github-release-assets'
+      - task: GitHubRelease@0
+        inputs:
+          gitHubConnection: 'chuanqisun'
+          repositoryName: '$(Build.Repository.Name)'
+          action: 'create'
+          target: '$(Build.SourceVersion)'
+          tagSource: 'manual'
+          tag: 'vX.Y.Z'
+          title: 'vX.Y.Z'
+          assets: '.\github-release-assets\**\*'
+          releaseNotesSource: 'input'
+          releaseNotes: |
+            === Replace me with release notes ===
+          isDraft: true
+          addChangeLog: false
